@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="30" viewBox="0 0 28 30">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 18 20">
+      <image width="18" height="20" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAYAAACAl21KAAAACXBIWXMAAAsSAAALEgHS3X78AAAA10lEQVQ4ja2UjQ2EIAyF603gKIzAKI7ECDcCI9wIuoEbnBu8S7VNelIVf15CQtry5UEBArA3AoBeRtir3UpEABmlsuSqQMkBrJWOQBYyAujEQZT5aPJpCxRN0RtA67htJaeKHigbJx7EwtRZ9kCq7qCTJDWqOfaiUqMTW6uoaWZbi3TSVIBaIvra+qugot7b2iUpKNxgLGvlDU3SgamiYzrsmlAEToD+DNj7cwZiYbO4azg8hQrxYQ8PcAZ2xJfrTtdY/d7+P84/xLFTP6S+cgvjuf8rAPQDF6/eANmPqhAAAAAASUVORK5CYII="/>
+    </pattern>
+  </defs>
+  <rect id="Bell" width="28" height="30" fill="url(#pattern)"/>
+</svg>

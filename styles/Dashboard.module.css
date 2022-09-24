@@ -1,0 +1,48 @@
+.mediaicons {
+    width: 20px !important;
+    height: 20px !important;
+}
+.profileOverviewHeading {
+    margin-bottom: 2px !important;
+}
+.count {
+    font-size: 2rem !important;
+    margin-bottom: 4px !important;
+}
+.shareProfile {
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    margin-bottom: 6px !important;
+}
+.btn {
+    padding: 1px 4px 0px !important;
+    border-radius: 31px !important;
+    color: black;
+    /* border-color: #000000 !important; */
+    box-shadow: -1px 2px 5px 1.5px rgba(0, 0, 0, 0.1);
+}
+.copyImage {
+    width: 12px !important;
+    height: 12px !important;
+}
+.text {
+    font-weight: 400 !important;
+    font-size: 0.7rem !important;
+    padding: 2px;
+}
+.or {
+    margin: 8px !important;
+    font-size: 0.6rem !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+}
+.or:hover {
+    cursor: pointer !important;
+}
+.label {
+    color: #5C5A5A !important;
+}
+#file {
+    display: none !important;
+}

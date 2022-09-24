@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="38" height="38" viewBox="0 0 38 38">
+<defs>
+<pattern id="pattern" width="1" height="1" viewBox="-7.231 -12.351 52.463 52.463">
+    <image preserveAspectRatio="xMidYMid slice" width="38" height="40.111" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAATCAYAAACdkl3yAAAACXBIWXMAAAsSAAALEgHS3X78AAAAuUlEQVQ4jcWTwQ3CMAxFf5FyZwRGgA3KBoySUdpNsgEjwAgZoWf7YJTAIW3cJFIj8SVfou8n6zuGiOhFZIXIC5H8yse3Hf8eZEoA25q0niHSUjFfAbxQ1g3GvFPHSbE/KhDVo4EuDaBMGsj3ArmGvsyTg74hzgXIvA06qtc/ytevifkMY5aSpQ3UoHVGzCOYHZilUi561YzKZ1E9lyOQFWwQojDi82BE95CR7ZC1DRN1WZt2In8EAfgA+Ed307bkneEAAAAASUVORK5CYII="/>
+</pattern>
+</defs>
+<g id="Asset_1" data-name="Asset 1" stroke="#707070" stroke-width="1" fill="url(#pattern)">
+    <circle cx="19" cy="19" r="19" stroke="none"/>
+    <circle cx="19" cy="19" r="18.5" fill="none"/>
+</g>
+</svg>

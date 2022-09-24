@@ -1,0 +1,186 @@
+.CarouselItems
+{
+    overflow: scroll;
+    height: 70vh;
+}
+
+.portfolioBook
+{    
+    margin: auto;
+    margin-top: 20px;
+}
+
+.portfolioPage
+{
+    box-shadow: 0 0 15px rgb(24, 24, 24);
+}
+
+.CarouselPage
+{
+    justify-content: space-around;
+    vertical-align: middle;
+    align-items: center;
+    padding: 20px 150px 20px 150px;
+    height: 100%;
+}
+
+.Tabs
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+    height: calc(100vh - 65px);
+}
+
+.certificateContainer
+{
+    height: 45%;
+    text-align: center;
+    background: none;
+    box-shadow: none;
+}
+
+.certificate
+{
+    max-width: 95%;
+    max-height: 100%;
+    border-radius: 25px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+}
+
+.Tab
+{
+    border: none;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    background-color: white;
+    color: black;
+    border-radius: 50px;
+    margin: 10px;
+    padding: 5px;
+    text-align: center;
+    height: fit-content;
+    width: 150px;
+    font-size: 1.5em;
+}
+
+.Tab[aria-selected='true']
+{
+    border: none;
+    background-color: rgb(53, 63, 92);
+    color: white;
+}
+
+.TabList
+{   
+    justify-content: space-around;
+    display: flex;
+    text-align: center;
+}
+
+.lbtnholder
+{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    margin-left: 50px;
+    top: 50%;
+    left:0;
+}
+
+.rbtnholder
+{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.24);
+    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    margin-right: 50px;
+    top: 50%;
+    right: 0;;
+}
+
+@media screen and (max-width: 1200px)
+{
+    .CarouselPage
+    {
+        padding: 20px 90px 20px 90px;
+    }
+
+    .lbtnholder
+    {
+        width: 60px;
+        height: 60px;
+        margin-left: 20px;
+    }
+
+    .rbtnholder
+    {
+        width: 60px;
+        height: 60px;
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 820px)
+{
+    .CarouselPage
+    {
+        padding: 20px 70px 20px 70px;
+    }
+
+    .lbtnholder
+    {
+        width: 50px;
+        height: 50px;
+        margin-left: 20px;
+    }
+
+    .rbtnholder
+    {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .CarouselPage
+    {
+        padding: 15px;
+    }
+
+    .TabList
+    {
+        padding-top: 80px;
+    }
+
+    .Tab
+    {
+        margin: 5px;
+        padding: 5px;
+        width: 120px;
+        font-size: 1.2em;
+    }
+
+    .lbtnholder
+    {
+        display: none;
+    }
+
+    .rbtnholder
+    {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .CarouselPage
+    {
+        padding: 10px;
+    }
+}
