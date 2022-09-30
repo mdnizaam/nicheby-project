@@ -23,14 +23,14 @@ export default function ProfileCard(props)
                             <Grid sx={{fontSize:'24px',flexBasis:"80%", maxHeight:"min-content", fontFamily: "'Times New Roman', Times, serif !important", color:'#070707 !important'}} >
                                 {props.userData.Name}
                             </Grid>
-                            <Grid sx={{marginRight:'20px', paddingTop:'4px'}}>
+                            {/* <Grid sx={{marginRight:'20px', paddingTop:'4px'}}>
                             <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 12 12">
                             <g id="Group_21" data-name="Group 21" transform="translate(-344 -170)">
                             <image id="certification-regular-24" width="12" height="12" transform="translate(344 170)" opacity="0.5" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAACBklEQVRIS82W4TUEQRCE6yJABIgAESACRIAMiAARIAJEcESACJABGRAB77vXva9vd2Zn5+5x+s/ezexOTVd118xIC4rRgnBVC7wvaUnSXWvDR5I+Jd0PTaQGeEfSoy38JOnCfp9JYo44GApeA/wuabWQEe+sD8m6D/jEaGWdNUnQSTxL2gxzjD1I2rN56H6139B/ndpIDhiQm8QHH7YJNnJu8zzJNMfIqaSr9lo5YBZDuxhfkigu9E0FLDBH8cWgFnyTzfgQ4Jo6iIDf9qcK+FbSoX04LzCaU+1T0V6UtkBbNCSgdzlDbWmYwnLa0f84yhSB0W8cVqOQKLKcpiVgNCfb2IJNn0fgWMm0jJtCCaA0D7i3GlkjY8cyyW7b7G/LWqS0cN88kr2YXG/W/5P3Uxq7LeLHbhqzgsci3c1pzOLRj/8U2KlmE3gu1ThPQDX2SXXzRL4O1bG4kr034w6KxdVuJ7Kl/N3wa3FpJzyBp0e2qgHH0L33MIGVWkR7PxoInsBp11wUcnYY6ZnXMjkySWgq/t0hkToWoY5ezGmOlnhA29urTif0uExo61cb2sTPaxZmnA1tJL6pugjwPeC+e7KJVxuMxudggv53HdE0Xn06t4+UZfYV8JDLnl+Nio1QU7HRTjF8GCHIyCn+lestINAJxZOjLYQfJu3xbOY1GRfpq3lhYcA/z4JtHx6IeDEAAAAASUVORK5CYII="/>
                             <image id="check-regular-24" width="6" height="6" transform="translate(347 173)" opacity="0.5" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAA0klEQVRIS+3UwQ0CIRCF4X8r0BIswRIswQ6MFViDnViCHbglWIIt2IGZhE0Iss4As+4FLhwgfMzLwMBKY1jJpcN/S75H3aNuSeAGjIDMX2Op5hLsFLRzDl8CjtE3cACeacnesAmVS3jCZtQTLkIt8Ba4ANcf7V2MarCgD2AfulK6Mx1VqAYLKO9wEzRBYrwa1WBZn8ObUAucw1/ALqQw+061L8/6nNLK5dxq1FrxdPkYb0JL4Sn2O3DMfYNavPG6NeqSM017O2yKyWNTj9ojRdMZHwTVLx8hI/ZZAAAAAElFTkSuQmCC"/>
                             </g>
                             </svg>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Grid sx={{fontSize:'18px', height:'20px', marginTop:'6px', fontFamily: "'Times New Roman', Times, serif !important", color:'#070707 !important'}}>
                             {props.userData.HighestQualification}
@@ -58,9 +58,10 @@ export default function ProfileCard(props)
                         </Grid>
                         <Grid sx={{flexGrow:"1",display:"flex",flexDirection:"column",justifyContent:"space-around", flexWrap:"wrap"}}>
                             <Grid mt={-0.6}>
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18">
+                            <img src={"/heart-regular-2.png"} />
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="18" height="18" viewBox="0 0 18 18">
                                     <image id="star-regular-24" width="18" height="18" opacity="0.6" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAflJREFUSEvFlu01BEEQRd9GgAgQARkgAkSADIgAESACZGAjQAZEgAyIgHOdrj21ZWp6pnG2/hgzs3371cfrmWhBMVkQV78B75VN37VsvhW8Lem+AHckPYyFt4IBbRUY18BHRQt4TdJLoKxLeh1DbgHfSDoIkFtJh/8J9mqBEbaJFUnvQ+FjFZ9JOnVNxaU12bkkng+KMeDlUlv+PkqiswlrNNRS60GqI5jZ3CgLAth02zcQt/Yl2fxS22v3nh+tJ7cRrqf2ngcfS7oYkKc3SdTaBx29OuC3R5Jozjnn8qZga5BSC1PCD+PosBHrap8Zm3VbY2Y2MdU+bdSKF0lRS8QSzNRGxbb4X8D9rH+URpwTkHV1hJ9YbQZIr0IzxV3KYydnfA99lsSUdFppbY69cj+7XWDfnED5P53pGhjAZ6FcSWLk+mLwuzWwV+FNI4NjKrslvbhYGjWwNxV/9LEhcyvGxGY8e//HBmpgU2BuhY1ySMSUX0rikDA/B8QkcL8zamCaY0kSRyAdi0qzS+aT4DlB95pJYJ/4sn2XjVLsz14W9f5Mh5tFsiFvjWwW5UQqrE9xtDwWQiVnbkwhqee+qTeFaUP2geMnjqnMvq3ISFSfjmAf2BorU5n1jVef1rkPTJ1YpOsYrPjIdz9QKkrS6V61rq4Bmp8vDPwF3g5zHyvzCuUAAAAASUVORK5CYII="/>
-                                </svg>
+                                </svg> */}
                             </Grid>
                             <Grid ml={2.5} mt={-2} sx={{fontSize:"8px", color:'black'}}>
                                 {props.userData.Likes}
@@ -91,7 +92,7 @@ export default function ProfileCard(props)
             </Grid>
             <Grid container sx={{color: "lightGrey",fontSize:"12px",display:"flex",flexWrap:"wrap",flexDirection:"row", justifyContent:'space-between', padding:'0px 10px 0px 10px'}}>
                 <Grid item sx={{fontSize:"10px", color:'black'}}>
-                    Ref. no: {props.userData.ReferenceNumber}
+                    MEM: {props.userData.ReferenceNumber}
                 </Grid>
                 <Grid item sx={{fontSize:"10px", color:'black'}}>
                     last updated on: {props.userData.LastUpdated}

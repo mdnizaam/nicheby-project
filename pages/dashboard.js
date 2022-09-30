@@ -33,13 +33,14 @@ import 'react-circular-progressbar/dist/styles.css'
 import axios from 'axios'
 import Multiselect from 'multiselect-react-dropdown'
 import AvatarEditor from 'react-avatar-editor'
-import{softwareData} from "../components/Skills/softwares"
+import { softwareData } from '../components/Skills/softwares'
 import { programingData } from '../components/Skills/programungLanData'
 
 const supportedFiletype = ['png', 'jpg', 'jpeg']
 const delimiters = [13, 188]
 const baseUrl = `http://localhost:4000`
-const baseUrl2 = `http://13.233.252.26`
+// const baseUrl2 = `http://13.233.252.26`
+const baseUrl2 = 'http://65.2.29.53:8000'
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 40,
@@ -145,12 +146,10 @@ export default function Deshboard() {
   const [softwares, setSoftwares] = useState([])
   const [description, setDiscription] = useState('')
   const [profilePic, setProfilePic] = useState('')
-  const[profileImage,setProfileImage]=useState(
-    {
-      preview:"",
-      raw:""
-    }
-  )
+  const [profileImage, setProfileImage] = useState({
+    preview: '',
+    raw: '',
+  })
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
@@ -232,16 +231,14 @@ export default function Deshboard() {
       }, 3000)
       return
     }
-    setProfileImage(
-      {
-        preview:URL.createObjectURL(selectedFile),
-        raw:selectedFile
-      }
-    )
+    setProfileImage({
+      preview: URL.createObjectURL(selectedFile),
+      raw: selectedFile,
+    })
   }
   const handleUpdateProfile = () => {
-    let  formData = new FormData()
-    formData.append('photo', profileImage.raw,profileImage.raw.name)
+    let formData = new FormData()
+    formData.append('photo', profileImage.raw, profileImage.raw.name)
     console.log('formData', profileImage)
     // axios
     //   .post(`${baseUrl2}/seeker/change-profile-picture`, formData, {
@@ -681,7 +678,7 @@ export default function Deshboard() {
                     p={{ sm: 2 }}
                     pr={{ lg: 0 }}
                     pt={{ lg: 0 }}
-                    style={{ borderTop: '1px solid #707070'}}
+                    style={{ borderTop: '1px solid #707070' }}
                   >
                     <Grid container>
                       <Grid item xs={12} lg={11}>

@@ -16,7 +16,8 @@ import axios from 'axios'
 import styled from '@emotion/styled'
 
 // const baseUrl = `http://localhost:4000`
-const baseUrl2 = 'http://13.233.252.26'
+// const baseUrl2 = 'http://13.233.252.26'
+const baseUrl2 = 'http://65.2.29.53:8000'
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -58,8 +59,14 @@ export default function Login() {
         .then((result) => {
           console.log('result:-', result.data.Token)
           // var user = result.data;
-          result.data && localStorage.setItem('user', JSON.stringify(result.data.Token));
-          window.location = `/`;
+          // if (res.data.user) {
+          //   window.location = `/verifyseeker/${res.data.user.email}`
+          // } else {
+          //   console.log('already registered')
+          // }
+          result.data &&
+            localStorage.setItem('user', JSON.stringify(result.data.Token))
+          window.location = `/`
         })
         .catch((e) => {
           console.log('events:-', e)
@@ -172,7 +179,7 @@ export default function Login() {
                     sx={{
                       boxShadow: '2px 2px 2px 1px rgba(0, 0, 0, 0.2)',
                       background: '#fff',
-                      color:"#000000"
+                      color: '#000000',
                     }}
                     className={styles.btn}
                     onClick={signup}

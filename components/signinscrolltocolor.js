@@ -34,13 +34,13 @@ const SigninScrollcolor = (props) => {
   })
 
   const scrollTheme = {
-    backgroundColor: trigger ? 'none !important' : '#FFFFFF !important',
+    backgroundColor: trigger ? '#373737 !important' : '#FFF !important',
     transition: trigger ? '0.3s !important' : '0.5s !important',
-    color: trigger ? '#FFFFFF !important' : '#ffffff !important',
+    color: trigger ? '#FFFFFF !important' : '#373737 !important',
     // borderBottom: trigger ? '1px solid red !important' : '',
-    width: trigger ? '100% !important' : '',
+    width: trigger ? '100% !important' : '100% !important',
     // border: trigger ? '' : '.5px solid gray !important',
-    borderRadius:trigger ? '20px' :"13px"
+    borderRadius:trigger ? '0px' :"0px"
   }
 
   let SigninMenu
@@ -93,7 +93,7 @@ const SigninScrollcolor = (props) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
           elevation={0}
-          sx={{ marginTop: '0px', paddingTop: '0px' }}
+          sx={{ marginTop: '0px', paddingTop: '0px !important' }}
         >
           <MenuItem
             onClick={handleClose}

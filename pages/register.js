@@ -17,8 +17,9 @@ import styles from '../styles/Register.module.css'
 import axios from 'axios'
 import GoogleOauth from '../components/googleoauth'
 
-const baseUrl = `http://localhost:4000`
-const baseUrl2 = 'http://13.233.252.26'
+// const baseUrl = `http://localhost:4000`
+// const baseUrl2 = 'http://13.233.252.26'
+const baseUrl2 = 'http://65.2.29.53:8000'
 
 export default function Register() {
   const [alertMsg, setAlertMsg] = useState('')
@@ -75,13 +76,15 @@ export default function Register() {
       axios
         .post(`${baseUrl2}/register`, user)
         .then(async (res) => {
-        
-
           console.log('res', res)
           //   setAlertSucMsg(
           //     `${res.data.user.first_name} you have registered successfully`,
           //   )
-          // window.location = `/verifyseeker/${res.data.user.email}`
+          if (res.data.user) {
+            window.location = `/verifyseeker/${res.data.user.email}`
+          } else {
+            console.log('already registered')
+          }
         })
         .catch((e) => {
           console.log('e', e)
@@ -133,7 +136,12 @@ export default function Register() {
           </Paper>
         </Grid>
       </Hidden>
-      <Grid item lg={6} xs={12} sx={{ padding: '0 2% 10px',borderLeft:"1px solid #fff" }}>
+      <Grid
+        item
+        lg={6}
+        xs={12}
+        sx={{ padding: '0 2% 10px', borderLeft: '1px solid #fff' }}
+      >
         <Grid container spacing={2}>
           {/* Main Heading */}
 
@@ -276,11 +284,15 @@ export default function Register() {
             >
               Sign up
             </Button>
-            <Typography variant="body2" className={styles.info}>
-              By clicking the signup button you agree to{' '}
-              <span style={{ fontWeight: 700 }}>Nicheby</span> Terms and
-              conditions, Privacy Policy and cookie Policy
-            </Typography>
+            <Link href="/privacypolicy">
+              <a sx={{ cursor: 'pointer' }}>
+                <Typography variant="body2" className={styles.info}>
+                  By clicking the signup button you agree to{' '}
+                  <span style={{ fontWeight: 700 }}>Nicheby</span> Terms and
+                  conditions, Privacy Policy and cookie Policy
+                </Typography>
+              </a>
+            </Link>
           </Grid>
 
           {/* Other Signup options */}
