@@ -17,7 +17,7 @@ import styled from '@emotion/styled'
 
 // const baseUrl = `http://localhost:4000`
 // const baseUrl2 = 'http://13.233.252.26'
-const baseUrl2 = 'http://65.2.29.53:8000'
+const baseUrl2 = 'http://nicheby.com:8000'
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -57,7 +57,7 @@ export default function Login() {
       await axios
         .post(`${baseUrl2}/login`, user)
         .then((result) => {
-          console.log('result:-', result.data.Token)
+          console.log('result:-', result)
           // var user = result.data;
           // if (res.data.user) {
           //   window.location = `/verifyseeker/${res.data.user.email}`
@@ -66,7 +66,7 @@ export default function Login() {
           // }
           result.data &&
             localStorage.setItem('user', JSON.stringify(result.data.Token))
-          window.location = `/`
+          window.location = `/homepage`
         })
         .catch((e) => {
           console.log('events:-', e)

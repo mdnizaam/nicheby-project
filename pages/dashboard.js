@@ -40,7 +40,7 @@ const supportedFiletype = ['png', 'jpg', 'jpeg']
 const delimiters = [13, 188]
 const baseUrl = `http://localhost:4000`
 // const baseUrl2 = `http://13.233.252.26`
-const baseUrl2 = 'http://65.2.29.53:8000'
+const baseUrl2 = 'http://nicheby.com:8000'
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 40,
@@ -96,25 +96,28 @@ export default function Deshboard() {
     setOpen(false)
   }
   // multi select tags
-  const data = [
-    'C++',
-    'C',
-    'Java',
-    'JavaScript',
-    'Python',
-    'Node js',
-    'React js',
-  ]
+
   const [options] = useState(softwareData)
   const courses = [
     'BFA',
     'MFA',
-    'B.arch',
-    'M.arch',
+    'B.Arch',
+    'B.F.A (Applied Arts)',
+    'B.F.A (Art Education)',
+    'B.F.A (Painting)',
+    'B.F.A (Sculpture)',
+    'M.F.A(Applied Art)',
+    'M.F.A(Art Education)',
+    'M.F.A(Art history & Art Appreciation)',
+    'M.F.A(Graphic Art)',
+    'M.F.A(Painting)',
+    'M.F.A(Sculpture',
+    'M.Arch',
     'B.tech',
     'M.tech',
     'MBA',
     'MCA',
+    'MCRC',
     'MassCom',
     'LLB',
     'LLM',
@@ -281,16 +284,16 @@ export default function Deshboard() {
     }
     console.log('updatedDetaills', updatedDetails)
     console.log('ALl Data', allData)
-    // axios
-    //   .post(`${baseUrl2}/student`, allData, {
-    //     headers: { Authorization: user.token },
-    //   })
-    //   .catch((err) => {
-    //     setAlertMsg(err.response.data.message)
-    //     setTimeout(() => {
-    //       setAlertMsg('')
-    //     }, 3000)
-    //   })
+    axios
+      .post(`${baseUrl2}/student`, allData, {
+        headers: { Authorization: user.token },
+      })
+      .catch((err) => {
+        setAlertMsg(err.response.data.message)
+        setTimeout(() => {
+          setAlertMsg('')
+        }, 3000)
+      })
   }
   const updateUserDetails = async (e) => {
     let updatedDetails = {
@@ -1232,7 +1235,7 @@ export default function Deshboard() {
                                   onSelect={(e) => {
                                     setSelectCourse(e)
                                   }}
-                                  options={courses}
+                                  options={courses.sort()}
                                   singleSelect
                                 />
                               </Grid>

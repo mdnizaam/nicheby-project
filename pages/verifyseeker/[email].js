@@ -29,10 +29,10 @@ export default function ChangePassword() {
     } else {
       console.log('emaiotp', { email, otp })
       axios
-        .post('http://65.2.29.53:8000/verifyotp', { email, otp })
+        .post(`http://nicheby.com:8000/verifyotp`, { email, otp })
         .then((otpRes) => {
           console.log('otpRes', otpRes)
-          window.location = '/'
+          window.location = '/login'
         })
         .catch((e) => {
           // setAlertMsg(e.response.data.message);

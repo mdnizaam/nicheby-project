@@ -29,7 +29,9 @@ export default function support() {
   hiddenFileInput.current = []
 
   const handleClick = (event) => {
-    hiddenFileInput.current[parseInt(event.target.id)].click()
+    console.log('value:-', event.target.id)
+    console.log('hidden:-', hiddenFileInput)
+    hiddenFileInput.current[parseInt(event.target?.id)].click()
   }
 
   //onUploadFile
@@ -140,8 +142,15 @@ export default function support() {
     }
   }
 
-  const tabClicked = (link) => {
-    window.location = link
+  // const tabClicked = (link) => {
+  //   window.location = link
+  // }
+  const handlePublishFile = (e) => {
+    if (selectedImages.length) {
+      const apiFormData = new FormData()
+      apiFormData.append('files', formArray)
+      console.log('formArray', apiFormData)
+    }
   }
 
   return (
@@ -152,7 +161,6 @@ export default function support() {
       <Grid
         container
         xs={12}
-        container
         mt={7.8}
         sx={{
           display: 'flex',
@@ -222,18 +230,18 @@ export default function support() {
                             
                             <img className={styles.listGrid} src="./horizontalDivider.svg" />
                             */}
-              <Grid container xs={12} container className={styles.carouselGrid}>
+              <Grid container xs={12} className={styles.carouselGrid}>
                 <Grid
                   container
                   xs={12}
-                  sm={11.5}
-                  container
+                  sm={11}
                   paddingTop={5}
                   paddingLeft={5}
                   paddingBottom={5}
                 >
                   <Swiper
                     // install Swiper modules
+                    style={{ width: '100%' }}
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={50}
                     slidesPerView={2}
@@ -295,6 +303,7 @@ export default function support() {
                       border: '1px solid #707070',
                       borderRadius: '15px',
                     }}
+                    onClick={handlePublishFile}
                   >
                     Publish
                   </Button>
@@ -477,6 +486,7 @@ export default function support() {
                   </Grid>
                   <Grid>
                     <img
+                      id={0}
                       className={styles.addFileIcon}
                       onClick={handleClick}
                       src="./uploadIcon2.svg"
@@ -486,7 +496,7 @@ export default function support() {
                 <input
                   type="file"
                   name="fileUpload"
-                  onChange={onFileChange}
+                  onChange={(e) => onFileChange(e, index)}
                   ref={null}
                   style={{ display: 'none' }}
                 />
@@ -546,6 +556,7 @@ export default function support() {
                       </Grid>
                       <Grid>
                         <img
+                          id={index}
                           className={styles.addFileIcon}
                           onClick={handleClick}
                           src="./uploadIcon2.svg"
@@ -595,8 +606,8 @@ export default function support() {
                     <input
                       type="file"
                       name="fileUpload"
-                      onChange={onFileChange}
-                      ref={null}
+                      onChange={(e) => onFileChange(e, index)}
+                      ref={(el) => (hiddenFileInput.current[index] = el)}
                       style={{ display: 'none' }}
                     />
                   </form>
@@ -672,6 +683,7 @@ export default function support() {
                       </Grid>
                       <Grid>
                         <img
+                          id={0}
                           className={styles.addFileIcon}
                           onClick={handleClick}
                           src="./uploadIcon2.svg"
