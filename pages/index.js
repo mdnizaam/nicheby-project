@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState } from "react";
+import Link from "next/link";
 import {
   Button,
   Checkbox,
@@ -12,46 +12,46 @@ import {
   Box,
   Hidden,
   Alert,
-} from '@mui/material'
-import styles from '../styles/Register.module.css'
-import axios from 'axios'
-import GoogleOauth from '../components/googleoauth'
-import ReCAPTCHA from 'react-google-recaptcha'
+} from "@mui/material";
+import styles from "../styles/Register.module.css";
+import axios from "axios";
+import GoogleOauth from "../components/googleoauth";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // const baseUrl = `http://localhost:4000`
 // const baseUrl2 = 'http://13.233.252.26'
-const baseUrl2 = 'http://nicheby.com:8000'
+const baseUrl2 = "https://staging.nicheby.com";
 
 export default function Register() {
-  const [alertMsg, setAlertMsg] = useState('')
-  const [alertSucMsg, setAlertSucMsg] = useState('')
-  const [user, setUser] = useState({})
-  const [showPwd, setShowPwd] = useState(false)
-  const [verified, setVerified] = useState(false)
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertSucMsg, setAlertSucMsg] = useState("");
+  const [user, setUser] = useState({});
+  const [showPwd, setShowPwd] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   function onChange(value) {
-    console.log('Captcha value:', value)
-    setVerified(true)
+    console.log("Captcha value:", value);
+    setVerified(true);
   }
 
   const passwordValidation = (password) => {
     if (!password || password.length < 8) {
-      return false
+      return false;
     }
     var uc = 0,
-      lc = 0
+      lc = 0;
     for (var i = 0; i < password.length; i++) {
-      if (password[i] >= 'a' && password[i] <= 'z') {
-        lc++
-      } else if (password[i] >= 'A' && password[i] <= 'Z') {
-        uc++
+      if (password[i] >= "a" && password[i] <= "z") {
+        lc++;
+      } else if (password[i] >= "A" && password[i] <= "Z") {
+        uc++;
       }
     }
     if (uc == 0 || lc == 0) {
-      return false
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   let signup = async () => {
     if (
@@ -63,54 +63,54 @@ export default function Register() {
         user.confirm_password
       )
     ) {
-      setAlertMsg('All Fields Required')
+      setAlertMsg("All Fields Required");
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
+        setAlertMsg("");
+      }, 3000);
     } else if (!passwordValidation(user.password)) {
       setAlertMsg(
-        'Password must have at least 8 Character with mix of upper and lowercase',
-      )
+        "Password must have at least 8 Character with mix of upper and lowercase"
+      );
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
+        setAlertMsg("");
+      }, 3000);
     } else if (user.password !== user.confirm_password) {
-      setAlertMsg(`Passwords doesn't match`)
+      setAlertMsg(`Passwords doesn't match`);
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
+        setAlertMsg("");
+      }, 3000);
     } else {
       axios
         .post(`${baseUrl2}/register`, user)
         .then(async (res) => {
-          console.log('res', res)
+          console.log("res", res);
           //   setAlertSucMsg(
           //     `${res.data.user.first_name} you have registered successfully`,
           //   )
           if (res.data.user) {
-            window.location = `/verifyseeker/${res.data.user.email}`
+            window.location = `/verifyseeker/${res.data.user.email}`;
           } else {
-            console.log('already registered')
+            console.log("already registered");
           }
         })
         .catch((e) => {
-          console.log('e', e)
+          console.log("e", e);
           //   setAlertMsg(e.response.data.message)
           setTimeout(() => {
-            setAlertMsg('')
-          }, 3000)
-        })
+            setAlertMsg("");
+          }, 3000);
+        });
     }
-  }
+  };
   return (
     <Grid container>
       {alertMsg ? (
         <Alert
           sx={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translate(-50%, 10px)',
-            width: 'min(90%, 800px)',
+            position: "absolute",
+            left: "50%",
+            transform: "translate(-50%, 10px)",
+            width: "min(90%, 800px)",
           }}
           severity="error"
         >
@@ -120,10 +120,10 @@ export default function Register() {
       {alertSucMsg ? (
         <Alert
           sx={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translate(-50%, 10px)',
-            width: 'min(90%, 800px)',
+            position: "absolute",
+            left: "50%",
+            transform: "translate(-50%, 10px)",
+            width: "min(90%, 800px)",
           }}
           severity="success"
         >
@@ -133,7 +133,7 @@ export default function Register() {
       {/* Side Image */}
       <Hidden lgDown>
         <Grid item lg={6}>
-          <Paper sx={{ width: `${(6 * 100) / 12}vw`, height: '100vh' }}>
+          <Paper sx={{ width: `${(6 * 100) / 12}vw`, height: "100vh" }}>
             <img
               src="/student.svg"
               width="100%"
@@ -147,7 +147,7 @@ export default function Register() {
         item
         lg={6}
         xs={12}
-        sx={{ padding: '0 2% 10px', borderLeft: '1px solid #fff' }}
+        sx={{ padding: "0 2% 10px", borderLeft: "1px solid #fff" }}
       >
         <Grid container spacing={2}>
           {/* Main Heading */}
@@ -156,7 +156,7 @@ export default function Register() {
             <Link href="/">
               <Typography
                 className={styles.heading1}
-                inputprops={{ form: { autocomplete: 'off' } }}
+                inputprops={{ form: { autocomplete: "off" } }}
               >
                 NicheBy
               </Typography>
@@ -179,8 +179,8 @@ export default function Register() {
               className={styles.input}
               autoComplete="new-password"
               onChange={(e) => {
-                user.first_name = e.target.value
-                setUser(user)
+                user.first_name = e.target.value;
+                setUser(user);
               }}
             />
           </Grid>
@@ -191,8 +191,8 @@ export default function Register() {
               size="small"
               autoComplete="new-password"
               onChange={(e) => {
-                user.last_name = e.target.value
-                setUser(user)
+                user.last_name = e.target.value;
+                setUser(user);
               }}
             />
           </Grid>
@@ -208,8 +208,8 @@ export default function Register() {
               size="small"
               autoComplete="new-password"
               onChange={(e) => {
-                user.email = e.target.value
-                setUser(user)
+                user.email = e.target.value;
+                setUser(user);
               }}
             />
           </Grid>
@@ -218,11 +218,11 @@ export default function Register() {
               fullWidth
               placeholder="Password"
               size="small"
-              type={showPwd ? 'text' : 'password'}
+              type={showPwd ? "text" : "password"}
               autoComplete="off"
               onChange={(e) => {
-                user.password = e.target.value
-                setUser(user)
+                user.password = e.target.value;
+                setUser(user);
               }}
             />
             <Typography className={styles.warn}>
@@ -234,11 +234,11 @@ export default function Register() {
               fullWidth
               placeholder="Confirm Password"
               size="small"
-              type={showPwd ? 'text' : 'password'}
+              type={showPwd ? "text" : "password"}
               autoComplete="off"
               onChange={(e) => {
-                user.confirm_password = e.target.value
-                setUser(user)
+                user.confirm_password = e.target.value;
+                setUser(user);
               }}
             />
           </Grid>
@@ -256,7 +256,7 @@ export default function Register() {
             </FormGroup>
             <Grid item xs={6}>
               <ReCAPTCHA
-                sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                sitekey="6Ldxg3YiAAAAAKp4fhlvvCNiS-fhpAvowOi_rnbU"
                 onChange={onChange}
               />
             </Grid>
@@ -267,7 +267,7 @@ export default function Register() {
           <Grid item xs={6}>
             <Box className={styles.link}>
               <p>
-                Already Have an account?{' '}
+                Already Have an account?{" "}
                 <Link href="/login">
                   <a> Login </a>
                 </Link>
@@ -276,12 +276,12 @@ export default function Register() {
           </Grid>
 
           <Hidden smUp>
-            <Grid item xs={6} mt={2} sx={{ textAlign: 'right' }}>
-              <Typography style={{ fontWeight: 400, fontSize: '1rem' }}>
+            <Grid item xs={6} mt={2} sx={{ textAlign: "right" }}>
+              <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
                 Not an Student?
               </Typography>
               <Link href="/register-employee">
-                <a style={{ fontWeight: 700, fontSize: '0.9rem' }}>
+                <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
                   Register as Employer
                 </a>
               </Link>
@@ -299,9 +299,9 @@ export default function Register() {
               Sign up
             </Button>
             <Link href="/privacypolicy">
-              <a sx={{ cursor: 'pointer' }}>
+              <a sx={{ cursor: "pointer" }}>
                 <Typography variant="body2" className={styles.info}>
-                  By clicking the signup button you agree to{' '}
+                  By clicking the signup button you agree to{" "}
                   <span style={{ fontWeight: 700 }}>Nicheby</span> Terms and
                   conditions, Privacy Policy and cookie Policy
                 </Typography>
@@ -334,11 +334,11 @@ export default function Register() {
 
           <Hidden smDown>
             <Grid item xs={12} mt={2}>
-              <Typography style={{ fontWeight: 400, fontSize: '1rem' }}>
+              <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
                 Not an Student?
               </Typography>
               <Link href="/register-employee">
-                <a style={{ fontWeight: 700, fontSize: '0.9rem' }}>
+                <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
                   Register as Employer
                 </a>
               </Link>
@@ -347,5 +347,5 @@ export default function Register() {
         </Grid>
       </Grid>
     </Grid>
-  )
+  );
 }

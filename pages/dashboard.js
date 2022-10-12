@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useReducer } from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect, useReducer } from "react";
+import Link from "next/link";
 import {
   Button,
   Checkbox,
@@ -20,256 +20,270 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-} from '@mui/material'
-import { styled } from '@mui/material/styles'
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar'
-import Navbar from '../components/navbar'
-import Sidebar from '../components/sidebar'
-import ApexChart from '../components/apexCharts'
-import QRCode from 'qrcode'
-import Header from '../components/headerForDashBoardHome'
-import styles from '../styles/Dashboard.module.css'
-import 'react-circular-progressbar/dist/styles.css'
-import axios from 'axios'
-import Multiselect from 'multiselect-react-dropdown'
-import AvatarEditor from 'react-avatar-editor'
-import { softwareData } from '../components/Skills/softwares'
-import { programingData } from '../components/Skills/programungLanData'
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import Navbar from "../components/navbar";
+import Sidebar from "../components/sidebar";
+import ApexChart from "../components/apexCharts";
+import QRCode from "qrcode";
+import Header from "../components/headerForDashBoardHome";
+import styles from "../styles/Dashboard.module.css";
+import "react-circular-progressbar/dist/styles.css";
+import axios from "axios";
+import Multiselect from "multiselect-react-dropdown";
+import AvatarEditor from "react-avatar-editor";
+import { softwareData } from "../components/Skills/softwares";
+import { programingData } from "../components/Skills/programungLanData";
+import withAuth from "../components/HOC/withAuth";
 
-const supportedFiletype = ['png', 'jpg', 'jpeg']
-const delimiters = [13, 188]
-const baseUrl = `http://localhost:4000`
+const supportedFiletype = ["png", "jpg", "jpeg"];
+const delimiters = [13, 188];
+const baseUrl = `http://localhost:4000`;
 // const baseUrl2 = `http://13.233.252.26`
-const baseUrl2 = 'http://nicheby.com:8000'
+const baseUrl2 = "https://staging.nicheby.com";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 40,
   height: 20,
   marginLeft: 0,
   padding: 0,
-  '&:active': {
-    '& .MuiSwitch-thumb': {
+  "&:active": {
+    "& .MuiSwitch-thumb": {
       width: 20,
     },
-    '& .MuiSwitch-switchBase.Mui-checked': {
-      transform: 'translateX(20px)',
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(20px)",
     },
   },
-  '& .MuiSwitch-switchBase': {
+  "& .MuiSwitch-switchBase": {
     padding: 1.8,
-    '&.Mui-checked': {
-      transform: 'translateX(20px)',
-      color: '#fff',
-      '& + .MuiSwitch-track': {
+    "&.Mui-checked": {
+      transform: "translateX(20px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: '#84D82',
+        backgroundColor: "#84D82",
       },
     },
   },
-  '& .MuiSwitch-thumb': {
+  "& .MuiSwitch-thumb": {
     width: 16,
     height: 16,
     borderRadius: 8,
-    transition: theme.transitions.create(['width'], {
+    transition: theme.transitions.create(["width"], {
       duration: 200,
     }),
   },
-  '& .MuiSwitch-track': {
+  "& .MuiSwitch-track": {
     borderRadius: 20 / 2,
     opacity: 1,
     backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(255,255,255,.35)'
-        : 'rgba(0,0,0,.25)',
-    boxSizing: 'border-box',
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
   },
-}))
+}));
 
-export default function Deshboard() {
-  const [open, setOpen] = React.useState(false)
-  const [imgCrop, setImgCrop] = useState(false)
+const Dashboard = () => {
+  const [open, setOpen] = React.useState(false);
+  const [imgCrop, setImgCrop] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
   // multi select tags
 
-  const [options] = useState(softwareData)
+  const [options] = useState(softwareData);
   const courses = [
-    'BFA',
-    'MFA',
-    'B.Arch',
-    'B.F.A (Applied Arts)',
-    'B.F.A (Art Education)',
-    'B.F.A (Painting)',
-    'B.F.A (Sculpture)',
-    'M.F.A(Applied Art)',
-    'M.F.A(Art Education)',
-    'M.F.A(Art history & Art Appreciation)',
-    'M.F.A(Graphic Art)',
-    'M.F.A(Painting)',
-    'M.F.A(Sculpture',
-    'M.Arch',
-    'B.tech',
-    'M.tech',
-    'MBA',
-    'MCA',
-    'MCRC',
-    'MassCom',
-    'LLB',
-    'LLM',
-  ]
-  const universities = ['Jamia Millia Islamia', 'DU']
+    "BFA",
+    "MFA",
+    "B.Arch",
+    "B.F.A (Applied Arts)",
+    "B.F.A (Art Education)",
+    "B.F.A (Painting)",
+    "B.F.A (Sculpture)",
+    "M.F.A(Applied Art)",
+    "M.F.A(Art Education)",
+    "M.F.A(Art history & Art Appreciation)",
+    "M.F.A(Graphic Art)",
+    "M.F.A(Painting)",
+    "M.F.A(Sculpture",
+    "M.Arch",
+    "B.tech",
+    "M.tech",
+    "MBA",
+    "MCA",
+    "MCRC",
+    "MassCom",
+    "LLB",
+    "LLM",
+  ];
+  const universities = ["Jamia Millia Islamia", "DU"];
   const colleges = {
-    'Jamia Millia Islamia': ['Jamia Millia Islamia'],
-    DU: ['DelhiDU', 'DEC', 'DBC'],
-  }
+    "Jamia Millia Islamia": ["Jamia Millia Islamia"],
+    DU: ["DelhiDU", "DEC", "DBC"],
+  };
 
-  const countries = ['India']
+  const countries = ["India"];
   const cities = {
-    India: ['Delhi', 'Hyderabad', 'Bhopal', 'Mumbai', 'Kolkata'],
-    USA: ['DelhiDU', 'DEC', 'DBC'],
-  }
+    India: ["Delhi", "Hyderabad", "Bhopal", "Mumbai", "Kolkata"],
+    USA: ["DelhiDU", "DEC", "DBC"],
+  };
 
-  const [coutText, setCountText] = useState(0)
-  const [toggleJob, setToggleJob] = useState('job')
-  const [user, setUser] = useState(null)
+  const [coutText, setCountText] = useState(0);
+  const [toggleJob, setToggleJob] = useState("job");
+  const [user, setUser] = useState(null);
 
   // individual form data start here
-  const [selectGender, setSelectGender] = useState('')
-  const [selectUniversity, setSelectUniversity] = useState('')
-  const [selectCollege, setSelectCollege] = useState('')
-  const [selectCourse, setSelectCourse] = useState('')
-  const [selectCity, setSelectCity] = useState('')
-  const [selectCountries, setSelectCountries] = useState('')
-  const [languages, setLanguages] = useState([])
-  const [softwares, setSoftwares] = useState([])
-  const [description, setDiscription] = useState('')
-  const [profilePic, setProfilePic] = useState('')
+  const [selectGender, setSelectGender] = useState("");
+  const [selectUniversity, setSelectUniversity] = useState("");
+  const [selectCollege, setSelectCollege] = useState("");
+  const [selectCourse, setSelectCourse] = useState("");
+  const [selectCity, setSelectCity] = useState("");
+  const [selectCountries, setSelectCountries] = useState("");
+  const [languages, setLanguages] = useState([]);
+  const [softwares, setSoftwares] = useState([]);
+  const [description, setDiscription] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [memId, setMemId] = useState("");
   const [profileImage, setProfileImage] = useState({
-    preview: '',
-    raw: '',
-  })
+    preview: "",
+    raw: "",
+  });
   const [userDetails, setUserDetails] = useState({
-    firstName: '',
-    lastName: '',
-    dob: '',
-    year_of_graduation: '',
-    year_of_experience: '',
-    percentage_grade_in_course: '',
-    profile_pic: '',
-  })
-  console.log('profilePic', profilePic)
+    firstName: "",
+    lastName: "",
+    dob: "",
+    year_of_graduation: "",
+    year_of_experience: "",
+    percentage_grade_in_course: "",
+    // profile_pic: '',
+  });
+  // console.log('profilePic', profilePic)
   const [notifications, setNotifications] = useState([
-    'You have a new message from Reliance Industries.',
-    'You have a notification from Nicheby.com',
-  ])
-  const [alertMsg, setAlertMsg] = useState('')
-  const [showModal, setShowModal] = useState(false)
-  const [percentage, setPercentage] = useState(20)
-  const [QRUrl, setQRUrl] = useState()
+    "You have a new message from Reliance Industries.",
+    "You have a notification from Nicheby.com",
+  ]);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [percentage, setPercentage] = useState(20);
+  const [QRUrl, setQRUrl] = useState();
 
   const jobToggleHandle = (job) => {
-    setToggleJob(job)
-  }
-  // useEffect(async () => {
-  //   // Protected Routing
-  //   if (localStorage.getItem('user')) {
-  //     var _user = JSON.parse(localStorage.getItem('user'))
-  //     console.log('user', _user)
-  //     await setUser(_user)
+    setToggleJob(job);
+  };
+  useEffect(async () => {
+    // Protected Routing
+    if (localStorage.getItem("user")) {
+      var _user = await JSON.parse(localStorage.getItem("user"));
+      console.log("user", _user);
+      setUser(_user);
 
-  //     axios
-  //       .get(`${baseUrl2}/student`, {
-  //         headers: { Authorization: _user },
-  //       })
-  //       .then((result) => {
-  //         console.log('result:->', result)
-  //         setUserDetails(result.data.seekerDetails)
-  //         setLanguages(result.data.seekerDetails.programmingLanguages)
-  //         setSoftwares(result.data.seekerDetails.softwares)
-  //         QRCode.toDataURL(
-  //           result.data.seekerDetails.RefId,
-  //           { errorCorrectionLevel: 'H' },
-  //           (err, url) => {
-  //             url && setQRUrl(url)
-  //             window.scrollTo(0, 0)
-  //           },
-  //         )
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //         setAlertMsg(err.response.data.message)
-  //         setTimeout(() => {
-  //           setAlertMsg('')
-  //         }, 3000)
-  //       })
-  //   } else {
-  //     window.location = '/login'
-  //   }
-  // }, [])
+      axios
+        .get(`${baseUrl2}/student`, {
+          headers: { Authorization: `Token ${_user}` },
+        })
+        .then((result) => {
+          console.log("result:->", result.data);
+          setUserDetails(result.data.data);
+          // setLanguages(result.data.seekerDetails.programmingLanguages)
+          // setSoftwares(result.data.seekerDetails.softwares)
+          setMemId(result.data.data.student_uuid);
+          QRCode.toDataURL(
+            result.data.data.student_uuid,
+            { errorCorrectionLevel: "H" },
+            (err, url) => {
+              url && setQRUrl(url);
+              window.scrollTo(0, 0);
+            }
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          setAlertMsg(err.response.data.message);
+          setTimeout(() => {
+            setAlertMsg("");
+          }, 3000);
+        });
+    } else {
+      window.location = "/login";
+    }
+  }, []);
 
   const toggleShowModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
   const getCurrentDate = () => {
-    let today = new Date()
-    let date = today.getDate()
-    let month = today.getMonth() + 1
-    let year = today.getFullYear()
-    return `${date}/${month < 10 ? `0${month}` : `${month}`}/${year}`
-  }
+    let today = new Date();
+    let date = today.getDate();
+    let month = today.getMonth() + 1;
+    let year = today.getFullYear();
+    return `${date}/${month < 10 ? `0${month}` : `${month}`}/${year}`;
+  };
 
   const updateUserPhoto = async (e) => {
-    var selectedFile = e.target.files[0]
+    var selectedFile = e.target.files[0];
     var ext =
-      selectedFile.name.split('.')[selectedFile.name.split('.').length - 1]
+      selectedFile.name.split(".")[selectedFile.name.split(".").length - 1];
     if (!supportedFiletype.includes(ext)) {
-      setAlertMsg('File Type Not supported')
+      setAlertMsg("File Type Not supported");
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
-      return
+        setAlertMsg("");
+      }, 3000);
+      return;
     }
     setProfileImage({
       preview: URL.createObjectURL(selectedFile),
       raw: selectedFile,
-    })
-  }
+    });
+  };
+  console.log("formData", profileImage.raw);
   const handleUpdateProfile = () => {
-    let formData = new FormData()
-    formData.append('photo', profileImage.raw, profileImage.raw.name)
-    console.log('formData', profileImage)
-    // axios
-    //   .post(`${baseUrl2}/seeker/change-profile-picture`, formData, {
-    //     headers: { Authorization: user.token },
-    //   })
-    //   .then((result) => {
-    //     console.log(result)
-    //     // let updatedDetails = {
-    //     //   ...userDetails,
-    //     //   ['photo']: result.data.photoLink,
-    //     // }
-    //     // setUserDetails(updatedDetails)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //     // setAlertMsg(err.response.data.message)
-    //     // setTimeout(() => {
-    //     //   setAlertMsg('')
-    //     // }, 3000)
-    //   })
-    setOpen(false)
-  }
+    let formData = new FormData();
+    formData.append("profile_pic", {
+      document: profileImage.raw,
+      dock_type: profileImage.raw.type,
+      name: profileImage.raw.name,
+    });
+    // formData.append('photo', profileImage.raw, profileImage.raw.name)
+    console.log("formData", profileImage.raw);
+    axios
+      .post(`${baseUrl2}/uploadDoc`, formData, {
+        headers: {
+          Authorization: `Token ${user}`,
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data`,
+        },
+      })
+      .then((result) => {
+        console.log(result);
+        // let updatedDetails = {
+        //   ...userDetails,
+        //   ['photo']: result.data.photoLink,
+        // }
+        // setUserDetails(updatedDetails)
+      })
+      .catch((err) => {
+        console.log("ERROR:->", err);
+        // setAlertMsg(err.response.data.message)
+        // setTimeout(() => {
+        //   setAlertMsg('')
+        // }, 3000)
+      });
+    // setOpen(false)
+  };
   const handleText = (e) => {
-    setDiscription(e.target.value)
-    setCountText(e.target.value.length)
-  }
+    setDiscription(e.target.value);
+    setCountText(e.target.value.length);
+  };
 
-  const saveDetails = (updatedDetails) => {
+  const saveDetails = async () => {
     const allData = {
       gender: selectGender[0],
       university: selectUniversity[0],
@@ -281,29 +295,33 @@ export default function Deshboard() {
       software: String(softwares),
       description: description,
       ...userDetails,
-    }
-    console.log('updatedDetaills', updatedDetails)
-    console.log('ALl Data', allData)
+    };
+    // console.log('updatedDetaills', updatedDetails)
+    console.log("ALl Data", allData);
     axios
       .post(`${baseUrl2}/student`, allData, {
-        headers: { Authorization: user.token },
+        headers: { Authorization: `Token ${user}` },
+      })
+      .then((result) => {
+        console.log("result", result);
       })
       .catch((err) => {
-        setAlertMsg(err.response.data.message)
+        console.log("err", err);
+        // setAlertMsg(err.response.data)
         setTimeout(() => {
-          setAlertMsg('')
-        }, 3000)
-      })
-  }
+          setAlertMsg("");
+        }, 3000);
+      });
+  };
   const updateUserDetails = async (e) => {
     let updatedDetails = {
       ...userDetails,
 
       [e.target.name]: e.target.value,
-    }
-    setUserDetails(updatedDetails)
+    };
+    setUserDetails(updatedDetails);
     // saveDetails(updatedDetails)
-  }
+  };
 
   return (
     <>
@@ -313,10 +331,10 @@ export default function Deshboard() {
           {alertMsg ? (
             <Alert
               sx={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translate(-50%, 10px)',
-                width: 'min(90%, 800px)',
+                position: "absolute",
+                left: "50%",
+                transform: "translate(-50%, 10px)",
+                width: "min(90%, 800px)",
               }}
               severity="error"
             >
@@ -336,12 +354,12 @@ export default function Deshboard() {
               item
               sm={4}
               lg={3}
-              sx={{ display: { xs: 'none', sm: 'fixed' }, marginTop: '8.5vh' }}
+              sx={{ display: { xs: "none", sm: "fixed" }, marginTop: "8.5vh" }}
             >
               <Sidebar />
             </Grid>
             {!showModal ? (
-              <Grid item xs={12} sm={8} lg={9} sx={{ marginTop: '8.5vh' }}>
+              <Grid item xs={12} sm={8} lg={9} sx={{ marginTop: "8.5vh" }}>
                 {/* Dashboard */}
                 <Grid container>
                   <Grid item xs={12}>
@@ -351,19 +369,19 @@ export default function Deshboard() {
                         <Grid
                           container
                           style={{
-                            justifyContent: 'space-between',
-                            padding: '0 25px',
+                            justifyContent: "space-between",
+                            padding: "0 25px",
                           }}
                         >
                           <Grid
-                            sx={{ display: { xs: 'none', sm: 'fixed' } }}
+                            sx={{ display: { xs: "none", sm: "fixed" } }}
                             item
-                            style={{ marginLeft: '25px', fontSize: '1.4rem' }}
+                            style={{ marginLeft: "25px", fontSize: "1.4rem" }}
                           >
                             Views
                           </Grid>
                           <Grid
-                            sx={{ display: { xs: 'none', sm: 'fixed' } }}
+                            sx={{ display: { xs: "none", sm: "fixed" } }}
                             item
                           >
                             Date: {getCurrentDate()}
@@ -378,7 +396,7 @@ export default function Deshboard() {
                         xs={12}
                         p={2}
                         pb={0}
-                        sx={{ display: { xs: 'block', sm: 'none' } }}
+                        sx={{ display: { xs: "block", sm: "none" } }}
                       >
                         <Grid container>
                           <Grid item xs={6}>
@@ -408,9 +426,9 @@ export default function Deshboard() {
                               <Typography
                                 xs={12}
                                 sx={{
-                                  marginTop: '15px',
+                                  marginTop: "15px",
                                   fontWeight: 600,
-                                  fontSize: '0.8rem',
+                                  fontSize: "0.8rem",
                                 }}
                               >
                                 Member ID: #{/* {userDetails.RefId} */}
@@ -429,7 +447,7 @@ export default function Deshboard() {
                               <Grid
                                 item
                                 xs={7}
-                                style={{ textAlign: 'center' }}
+                                style={{ textAlign: "center" }}
                                 mt={1}
                               >
                                 <CircularProgressbar
@@ -437,9 +455,9 @@ export default function Deshboard() {
                                   strokeWidth={14}
                                   text={`${percentage}%`}
                                   styles={buildStyles({
-                                    strokeLinecap: 'butt',
-                                    textColor: '#000',
-                                    pathColor: '#353F5C',
+                                    strokeLinecap: "butt",
+                                    textColor: "#000",
+                                    pathColor: "#353F5C",
                                   })}
                                 />
                               </Grid>
@@ -453,7 +471,7 @@ export default function Deshboard() {
                         xs={12}
                         pl={2}
                         pr={2}
-                        sx={{ display: { xs: 'block', sm: 'none' } }}
+                        sx={{ display: { xs: "block", sm: "none" } }}
                       >
                         <Grid container>
                           <Grid item xs={6} pt={2}>
@@ -485,9 +503,9 @@ export default function Deshboard() {
                               item
                               xs={12}
                               style={{
-                                justifyContent: 'space-between',
-                                display: 'inline-flex',
-                                width: '100%',
+                                justifyContent: "space-between",
+                                display: "inline-flex",
+                                width: "100%",
                               }}
                             >
                               <Link href="#">
@@ -513,7 +531,7 @@ export default function Deshboard() {
                           <Grid item xs={6} pl={1}>
                             <Grid item xs={12}>
                               <img
-                                style={{ width: 'min(100%, 150px)' }}
+                                style={{ width: "min(100%, 150px)" }}
                                 src={QRUrl}
                               />
                             </Grid>
@@ -525,7 +543,7 @@ export default function Deshboard() {
                       <Grid
                         item
                         lg={3}
-                        sx={{ display: { xs: 'none', lg: 'block' } }}
+                        sx={{ display: { xs: "none", lg: "block" } }}
                       >
                         <Grid container>
                           {/* Share, Like, Verification >=lg*/}
@@ -575,7 +593,7 @@ export default function Deshboard() {
                                   <Grid
                                     item
                                     xs={10}
-                                    style={{ textAlign: 'center' }}
+                                    style={{ textAlign: "center" }}
                                     mt={1}
                                   >
                                     <CircularProgressbar
@@ -583,9 +601,9 @@ export default function Deshboard() {
                                       strokeWidth={14}
                                       text={`${percentage}%`}
                                       styles={buildStyles({
-                                        strokeLinecap: 'butt',
-                                        textColor: '#000',
-                                        pathColor: '#353F5C',
+                                        strokeLinecap: "butt",
+                                        textColor: "#000",
+                                        pathColor: "#353F5C",
                                       })}
                                     />
                                   </Grid>
@@ -613,7 +631,7 @@ export default function Deshboard() {
                                       <Grid item xs={3}>
                                         <img
                                           className={styles.copyImage}
-                                          src="/copy.svg"
+                                          src={QRUrl}
                                         />
                                       </Grid>
                                       <Grid item xs={9} className={styles.text}>
@@ -636,9 +654,9 @@ export default function Deshboard() {
                                   item
                                   xs={12}
                                   style={{
-                                    justifyContent: 'space-between',
-                                    display: 'inline-flex',
-                                    width: '100%',
+                                    justifyContent: "space-between",
+                                    display: "inline-flex",
+                                    width: "100%",
                                   }}
                                 >
                                   <Link href="#">
@@ -664,7 +682,7 @@ export default function Deshboard() {
                               <Grid item xs={7} pl={1}>
                                 <Grid item xs={12}>
                                   <img
-                                    style={{ width: 'min(100%, 180px)' }}
+                                    style={{ width: "min(100%, 180px)" }}
                                     src={QRUrl}
                                   />
                                 </Grid>
@@ -681,7 +699,7 @@ export default function Deshboard() {
                     p={{ sm: 2 }}
                     pr={{ lg: 0 }}
                     pt={{ lg: 0 }}
-                    style={{ borderTop: '1px solid #707070' }}
+                    style={{ borderTop: "1px solid #707070" }}
                   >
                     <Grid container>
                       <Grid item xs={12} lg={11}>
@@ -691,30 +709,30 @@ export default function Deshboard() {
                             <Grid
                               container
                               sx={{
-                                justifyContent: 'space-between',
-                                marginTop: { xs: '10px', sm: '15px' },
-                                paddingRight: { xs: 0, sm: '18px' },
+                                justifyContent: "space-between",
+                                marginTop: { xs: "10px", sm: "15px" },
+                                paddingRight: { xs: 0, sm: "18px" },
                               }}
                             >
                               <Grid item xs={8} sm={7}>
                                 <Typography
                                   sx={{
                                     fontWeight: 600,
-                                    fontSize: { xs: '0.8rem', sm: '1rem' },
+                                    fontSize: { xs: "0.8rem", sm: "1rem" },
                                   }}
                                 >
-                                  Display Your Porfolio on Website{' '}
+                                  Display Your Porfolio on Website{" "}
                                   <AntSwitch
                                     defaultChecked
-                                    inputProps={{ 'aria-label': 'ant design' }}
+                                    inputProps={{ "aria-label": "ant design" }}
                                   />
                                 </Typography>
                               </Grid>
                               <Grid item xs={4} sm={5}>
                                 <Typography
                                   sx={{
-                                    fontSize: { xs: '0.6rem', sm: '0.8rem' },
-                                    float: { sm: 'right' },
+                                    fontSize: { xs: "0.6rem", sm: "0.8rem" },
+                                    float: { sm: "right" },
                                   }}
                                 >
                                   Profile Last Updated on: 20/12/2021
@@ -739,15 +757,15 @@ export default function Deshboard() {
                                     <label onClick={handleClickOpen}>
                                       <img
                                         style={{
-                                          width: 'min(200px, 100%)',
-                                          cursor: 'pointer',
+                                          width: "min(200px, 100%)",
+                                          cursor: "pointer",
                                         }}
                                         // src={
                                         //   profilePic
                                         //     ? profilePic
                                         //     : '/addFile.png'
                                         // }
-                                        src={'/addFile.png'}
+                                        src={"/addFile.png"}
                                       />
                                     </label>
                                     {/* <input
@@ -776,7 +794,7 @@ export default function Deshboard() {
                                     >
                                       <DialogTitle id="alert-dialog-title">
                                         {
-                                          'Please Choose A profile Pic For Upload'
+                                          "Please Choose A profile Pic For Upload"
                                         }
                                       </DialogTitle>
                                       <DialogContent>
@@ -784,12 +802,12 @@ export default function Deshboard() {
                                           <label htmlFor="file">
                                             <img
                                               style={{
-                                                width: 'min(200px, 100%)',
+                                                width: "min(200px, 100%)",
                                               }}
                                               src={
                                                 profileImage.preview
                                                   ? profileImage.preview
-                                                  : '/addFile.png'
+                                                  : "/addFile.png"
                                               }
                                               // src={profilePic}
                                             />
@@ -825,11 +843,11 @@ export default function Deshboard() {
                                     sm={3}
                                     sx={{
                                       display: {
-                                        xs: 'none',
-                                        sm: 'block',
-                                        lg: 'none',
+                                        xs: "none",
+                                        sm: "block",
+                                        lg: "none",
                                       },
-                                      textAlign: 'center',
+                                      textAlign: "center",
                                     }}
                                     pl={1}
                                     mt={{ sm: 2 }}
@@ -838,7 +856,7 @@ export default function Deshboard() {
                                       <Grid item xs={12}>
                                         <Typography
                                           xs={12}
-                                          sx={{ fontSize: '1.1rem' }}
+                                          sx={{ fontSize: "1.1rem" }}
                                           className={
                                             styles.profileOverviewHeading
                                           }
@@ -855,7 +873,7 @@ export default function Deshboard() {
                                       <Grid item xs={12}>
                                         <Typography
                                           xs={12}
-                                          sx={{ fontSize: '1.1rem' }}
+                                          sx={{ fontSize: "1.1rem" }}
                                           className={
                                             styles.profileOverviewHeading
                                           }
@@ -876,13 +894,13 @@ export default function Deshboard() {
                                   <Typography
                                     xs={12}
                                     sx={{
-                                      display: { xs: 'none', sm: 'block' },
-                                      marginTop: '15px',
+                                      display: { xs: "none", sm: "block" },
+                                      marginTop: "15px",
                                       fontWeight: 600,
-                                      fontSize: { xs: '1.1rem', lg: '0.9rem' },
+                                      fontSize: { xs: "1.1rem", lg: "0.9rem" },
                                     }}
                                   >
-                                    Member ID: #{/* {userDetails.RefId} */}
+                                    Member ID: #{memId}
                                   </Typography>
                                 </Grid>
                               </Grid>
@@ -893,9 +911,9 @@ export default function Deshboard() {
                                 sm={12}
                                 sx={{
                                   display: {
-                                    xs: 'block',
-                                    sm: 'none',
-                                    lg: 'none',
+                                    xs: "block",
+                                    sm: "none",
+                                    lg: "none",
                                   },
                                 }}
                               >
@@ -927,9 +945,9 @@ export default function Deshboard() {
                                 sm={3}
                                 sx={{
                                   display: {
-                                    xs: 'none',
-                                    sm: 'block',
-                                    lg: 'none',
+                                    xs: "none",
+                                    sm: "block",
+                                    lg: "none",
                                   },
                                 }}
                                 mt={{ sm: 2 }}
@@ -938,7 +956,7 @@ export default function Deshboard() {
                                   <Grid
                                     item
                                     xs={12}
-                                    sx={{ fontSize: '1.15rem' }}
+                                    sx={{ fontSize: "1.15rem" }}
                                     className={styles.profileOverviewHeading}
                                   >
                                     Verification
@@ -946,7 +964,7 @@ export default function Deshboard() {
                                   <Grid
                                     item
                                     xs={12}
-                                    style={{ textAlign: 'center' }}
+                                    style={{ textAlign: "center" }}
                                     mt={3}
                                   >
                                     <CircularProgressbar
@@ -954,9 +972,9 @@ export default function Deshboard() {
                                       strokeWidth={14}
                                       text={`${percentage}%`}
                                       styles={buildStyles({
-                                        strokeLinecap: 'butt',
-                                        textColor: '#000',
-                                        pathColor: '#353F5C',
+                                        strokeLinecap: "butt",
+                                        textColor: "#000",
+                                        pathColor: "#353F5C",
                                       })}
                                     />
                                   </Grid>
@@ -968,9 +986,9 @@ export default function Deshboard() {
                                 sm={3}
                                 sx={{
                                   display: {
-                                    xs: 'none',
-                                    sm: 'block',
-                                    lg: 'none',
+                                    xs: "none",
+                                    sm: "block",
+                                    lg: "none",
                                   },
                                 }}
                                 mt={{ sm: -2 }}
@@ -979,10 +997,10 @@ export default function Deshboard() {
                                   <Grid
                                     item
                                     xs={12}
-                                    style={{ textAlign: 'center' }}
+                                    style={{ textAlign: "center" }}
                                   >
                                     <img
-                                      style={{ width: 'min(100%, 250px)' }}
+                                      style={{ width: "min(100%, 250px)" }}
                                       src={QRUrl}
                                     />
                                   </Grid>
@@ -1029,9 +1047,9 @@ export default function Deshboard() {
                                     item
                                     xs={12}
                                     style={{
-                                      justifyContent: 'space-between',
-                                      display: 'inline-flex',
-                                      width: '100%',
+                                      justifyContent: "space-between",
+                                      display: "inline-flex",
+                                      width: "100%",
                                     }}
                                   >
                                     <Link href="#">
@@ -1065,7 +1083,7 @@ export default function Deshboard() {
                               <Grid
                                 item
                                 sm={12}
-                                sx={{ display: { xs: 'none', sm: 'block' } }}
+                                sx={{ display: { xs: "none", sm: "block" } }}
                               >
                                 <Grid container spacing={2}>
                                   <Grid item sm={12}>
@@ -1076,26 +1094,26 @@ export default function Deshboard() {
                                   <Grid item sm={6}>
                                     <Button
                                       sx={{
-                                        fontSize: '1.1rem',
-                                        width: '100%',
+                                        fontSize: "1.1rem",
+                                        width: "100%",
                                         backgroundColor: `${
-                                          toggleJob === 'internship'
-                                            ? '#353F5C'
-                                            : ''
+                                          toggleJob === "internship"
+                                            ? "#353F5C"
+                                            : ""
                                         }`,
-                                        '&:hover': {
-                                          backgroundColor: '#353F5C',
+                                        "&:hover": {
+                                          backgroundColor: "#353F5C",
                                         },
                                         color: `${
-                                          toggleJob === 'internship'
-                                            ? '#fff !important'
-                                            : 'black'
+                                          toggleJob === "internship"
+                                            ? "#fff !important"
+                                            : "black"
                                         }`,
                                       }}
                                       // variant="outlined"
                                       className={styles.btn}
                                       onClick={() =>
-                                        jobToggleHandle('internship')
+                                        jobToggleHandle("internship")
                                       }
                                     >
                                       Internship
@@ -1104,26 +1122,26 @@ export default function Deshboard() {
                                   <Grid item sm={6}>
                                     <Button
                                       sx={{
-                                        fontSize: '1.1rem',
-                                        width: '100%',
+                                        fontSize: "1.1rem",
+                                        width: "100%",
                                         backgroundColor: `${
-                                          toggleJob === 'job'
-                                            ? '#353F5C'
-                                            : 'white'
+                                          toggleJob === "job"
+                                            ? "#353F5C"
+                                            : "white"
                                         }`,
                                         color: `${
-                                          toggleJob === 'job'
-                                            ? '#fff !important'
-                                            : 'black'
+                                          toggleJob === "job"
+                                            ? "#fff !important"
+                                            : "black"
                                         }`,
 
-                                        '&:hover': {
-                                          backgroundColor: '#353F5C',
+                                        "&:hover": {
+                                          backgroundColor: "#353F5C",
                                         },
                                       }}
                                       variant="contained"
                                       className={styles.btn}
-                                      onClick={() => jobToggleHandle('job')}
+                                      onClick={() => jobToggleHandle("job")}
                                     >
                                       Job
                                     </Button>
@@ -1167,9 +1185,9 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={function noRefCheck() {}}
                                   onSelect={(e) => {
-                                    setSelectGender(e)
+                                    setSelectGender(e);
                                   }}
-                                  options={['Male', 'Female', 'Others']}
+                                  options={["M", "F", "Others"]}
                                   singleSelect
                                 />
                               </Grid>
@@ -1198,7 +1216,7 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={function noRefCheck() {}}
                                   onSelect={(event) => {
-                                    setSelectUniversity(event)
+                                    setSelectUniversity(event);
                                   }}
                                   options={universities}
                                   singleSelect
@@ -1216,7 +1234,7 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={function noRefCheck() {}}
                                   onSelect={(e) => {
-                                    setSelectCollege(e)
+                                    setSelectCollege(e);
                                   }}
                                   options={colleges[selectUniversity]}
                                   singleSelect
@@ -1233,7 +1251,7 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={function noRefCheck() {}}
                                   onSelect={(e) => {
-                                    setSelectCourse(e)
+                                    setSelectCourse(e);
                                   }}
                                   options={courses.sort()}
                                   singleSelect
@@ -1264,7 +1282,7 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={function noRefCheck() {}}
                                   onSelect={(e) => {
-                                    setSelectCity(e)
+                                    setSelectCity(e);
                                   }}
                                   options={cities[selectCountries]}
                                   singleSelect
@@ -1282,9 +1300,9 @@ export default function Deshboard() {
                                   onRemove={function noRefCheck() {}}
                                   onSearch={() => {}}
                                   onSelect={(event) => {
-                                    setSelectCountries(event[0])
+                                    setSelectCountries(event[0]);
                                   }}
-                                  options={['India']}
+                                  options={["India"]}
                                   singleSelect
                                 />
                               </Grid>
@@ -1297,32 +1315,32 @@ export default function Deshboard() {
                                   id="css_custom"
                                   isObject={false}
                                   onRemove={(e) => {
-                                    console.log()
+                                    console.log();
                                   }}
                                   onSearch={(e) => {
-                                    console.log()
+                                    console.log();
                                   }}
                                   onSelect={(e) => {
-                                    console.log(e)
-                                    setLanguages(e)
+                                    console.log(e);
+                                    setLanguages(e);
                                   }}
                                   options={programingData}
                                   style={{
                                     chips: {
-                                      background: 'gray',
-                                      border: '1px solid gray',
-                                      color: 'black',
+                                      background: "gray",
+                                      border: "1px solid gray",
+                                      color: "black",
 
-                                      textAlign: 'center',
+                                      textAlign: "center",
                                     },
                                     multiselectContainer: {
-                                      color: 'black',
-                                      width: '100%',
+                                      color: "black",
+                                      width: "100%",
                                     },
                                     searchBox: {
-                                      border: '1px solid gray',
+                                      border: "1px solid gray",
 
-                                      padding: '8px 15px',
+                                      padding: "8px 15px",
                                     },
                                   }}
                                 />
@@ -1335,32 +1353,32 @@ export default function Deshboard() {
                                   id="css_custom"
                                   isObject={false}
                                   onRemove={(e) => {
-                                    console.log()
+                                    console.log();
                                   }}
                                   onSearch={(e) => {
-                                    console.log()
+                                    console.log();
                                   }}
                                   onSelect={(e) => {
-                                    console.log(e)
-                                    setSoftwares(e)
+                                    console.log(e);
+                                    setSoftwares(e);
                                   }}
                                   options={options}
                                   style={{
                                     chips: {
-                                      background: 'gray',
-                                      border: '1px solid gray',
-                                      color: 'black',
+                                      background: "gray",
+                                      border: "1px solid gray",
+                                      color: "black",
 
-                                      textAlign: 'center',
+                                      textAlign: "center",
                                     },
                                     multiselectContainer: {
-                                      color: 'black',
-                                      width: '100%',
+                                      color: "black",
+                                      width: "100%",
                                     },
                                     searchBox: {
-                                      border: '1px solid gray',
+                                      border: "1px solid gray",
 
-                                      padding: '8px 15px',
+                                      padding: "8px 15px",
                                     },
                                   }}
                                 />
@@ -1398,8 +1416,8 @@ export default function Deshboard() {
                                   Description
                                   <img
                                     style={{
-                                      width: '13px',
-                                      marginLeft: '10px',
+                                      width: "13px",
+                                      marginLeft: "10px",
                                     }}
                                     src="/icons8-info-100.svg"
                                     title="Please avoid any Phone numbers to avoid any misuse or any unwanted happenings to occuer"
@@ -1422,12 +1440,12 @@ export default function Deshboard() {
                               <Grid item sm={6}>
                                 <Button
                                   sx={{
-                                    fontSize: '1.1rem',
-                                    width: '100%',
-                                    backgroundColor: '#353F5C',
-                                    color: '#fff !important',
-                                    '&:hover': {
-                                      backgroundColor: '#353F5C',
+                                    fontSize: "1.1rem",
+                                    width: "100%",
+                                    backgroundColor: "#353F5C",
+                                    color: "#fff !important",
+                                    "&:hover": {
+                                      backgroundColor: "#353F5C",
                                     },
                                   }}
                                   className={styles.btn}
@@ -1479,5 +1497,6 @@ export default function Deshboard() {
         </>
       ) : null}
     </>
-  )
-}
+  );
+};
+export default withAuth(Dashboard);

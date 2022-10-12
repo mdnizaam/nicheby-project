@@ -20,7 +20,7 @@ import Sidebar from '../components/sidebar'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import styles from '../styles/Portfolio.module.css'
 
-export default function support() {
+const support=()=> {
   let FormData = require('form-data')
   let formData = new FormData()
 
@@ -762,3 +762,4 @@ export default function support() {
     </Grid>
   )
 }
+export default support

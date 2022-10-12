@@ -6,8 +6,9 @@ import React,{useState} from 'react'
 import Navcolbar from '../components/navbarscrolltocolor';
 import Main from '../components/mainPageCards.js';
 import Image from 'next/dist/client/image';
+import withAuth from '../components/HOC/withAuth';
 
-export default function Home() {
+ const Home=()=> {
   const [toggle,setToggle] = useState(false);
   const toggler = (e) => {
     setToggle((toggle) => e);
@@ -33,3 +34,5 @@ export default function Home() {
     </>
   )
 }
+export default withAuth(Home)
+

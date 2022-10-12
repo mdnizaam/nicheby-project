@@ -17,7 +17,7 @@ import styled from '@emotion/styled'
 
 // const baseUrl = `http://localhost:4000`
 // const baseUrl2 = 'http://13.233.252.26'
-const baseUrl2 = 'http://nicheby.com:8000'
+const baseUrl2 = 'https://staging.nicheby.com'
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -65,7 +65,7 @@ export default function Login() {
           //   console.log('already registered')
           // }
           result.data &&
-            localStorage.setItem('user', JSON.stringify(result.data.Token))
+            localStorage.setItem('user', JSON.stringify(result.data.token))
           window.location = `/homepage`
         })
         .catch((e) => {
@@ -200,7 +200,7 @@ export default function Login() {
               <Grid item xs={12} mt={8}>
                 <Typography className={styles.label}>
                   Don't have an account?
-                  <Link href="register">
+                  <Link href="/">
                     <a style={{ fontWeight: 700 }}> Signup</a>
                   </Link>
                 </Typography>

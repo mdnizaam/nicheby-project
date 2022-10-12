@@ -29,7 +29,7 @@ export default function ChangePassword() {
     } else {
       console.log('emaiotp', { email, otp })
       axios
-        .post(`http://nicheby.com:8000/verifyotp`, { email, otp })
+        .post(`https://staging.nicheby.com/verifyotp`, { email, otp })
         .then((otpRes) => {
           console.log('otpRes', otpRes)
           window.location = '/login'
