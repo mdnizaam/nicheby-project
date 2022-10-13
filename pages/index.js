@@ -17,6 +17,8 @@ import styles from "../styles/Register.module.css";
 import axios from "axios";
 import GoogleOauth from "../components/googleoauth";
 import ReCAPTCHA from "react-google-recaptcha";
+import Head from "next/head";
+import Script from "next/script";
 
 // const baseUrl = `http://localhost:4000`
 // const baseUrl2 = 'http://13.233.252.26'
@@ -103,214 +105,227 @@ export default function Register() {
     }
   };
   return (
-    <Grid container>
-      {alertMsg ? (
-        <Alert
-          sx={{
-            position: "absolute",
-            left: "50%",
-            transform: "translate(-50%, 10px)",
-            width: "min(90%, 800px)",
-          }}
-          severity="error"
-        >
-          {alertMsg}
-        </Alert>
-      ) : null}
-      {alertSucMsg ? (
-        <Alert
-          sx={{
-            position: "absolute",
-            left: "50%",
-            transform: "translate(-50%, 10px)",
-            width: "min(90%, 800px)",
-          }}
-          severity="success"
-        >
-          {alertSucMsg}
-        </Alert>
-      ) : null}
-      {/* Side Image */}
-      <Hidden lgDown>
-        <Grid item lg={6}>
-          <Paper sx={{ width: `${(6 * 100) / 12}vw`, height: "100vh" }}>
-            <img
-              src="/student.svg"
-              width="100%"
-              height="100%"
-              className={`${styles.img} `}
-            />
-          </Paper>
-        </Grid>
-      </Hidden>
-      <Grid
-        item
-        lg={6}
-        xs={12}
-        sx={{ padding: "0 2% 10px", borderLeft: "1px solid #fff" }}
-      >
-        <Grid container spacing={2}>
-          {/* Main Heading */}
+    <>
+      <Head>
+        <title>Reister</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-          <Grid item xs={12} mt={2}>
-            <Link href="/">
-              <Typography
-                className={styles.heading1}
-                inputprops={{ form: { autocomplete: "off" } }}
-              >
-                NicheBy
-              </Typography>
-            </Link>
-          </Grid>
+        <Script
+          src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+          async
+          defer
+        ></Script>
+      </Head>
 
-          <Grid item xs={12} mt={2}>
-            <Typography className={styles.heading2}>
-              Create Your New Account
-            </Typography>
-          </Grid>
-
-          {/* Basic Details */}
-
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              placeholder="First Name"
-              size="small"
-              className={styles.input}
-              autoComplete="new-password"
-              onChange={(e) => {
-                user.first_name = e.target.value;
-                setUser(user);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              placeholder="Last Name"
-              size="small"
-              autoComplete="new-password"
-              onChange={(e) => {
-                user.last_name = e.target.value;
-                setUser(user);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} mb={1}>
-            <Typography className={styles.info}>
-              <img src="/icons8-info-100.svg" className={styles.infoicon} />
-              For Seamless verification signup with your official/registered
-              company Email or College Email
-            </Typography>
-            <TextField
-              fullWidth
-              placeholder="Email Id"
-              size="small"
-              autoComplete="new-password"
-              onChange={(e) => {
-                user.email = e.target.value;
-                setUser(user);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              placeholder="Password"
-              size="small"
-              type={showPwd ? "text" : "password"}
-              autoComplete="off"
-              onChange={(e) => {
-                user.password = e.target.value;
-                setUser(user);
-              }}
-            />
-            <Typography className={styles.warn}>
-              Use at least 8 Character with mix of upper and lowercase
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              fullWidth
-              placeholder="Confirm Password"
-              size="small"
-              type={showPwd ? "text" : "password"}
-              autoComplete="off"
-              onChange={(e) => {
-                user.confirm_password = e.target.value;
-                setUser(user);
-              }}
-            />
-          </Grid>
-
-          {/* Show Password */}
-
-          <Grid item xs={12}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox onChange={(e) => setShowPwd(e.target.checked)} />
-                }
-                label="Show Password"
+      <Grid container>
+        {alertMsg ? (
+          <Alert
+            sx={{
+              position: "absolute",
+              left: "50%",
+              transform: "translate(-50%, 10px)",
+              width: "min(90%, 800px)",
+            }}
+            severity="error"
+          >
+            {alertMsg}
+          </Alert>
+        ) : null}
+        {alertSucMsg ? (
+          <Alert
+            sx={{
+              position: "absolute",
+              left: "50%",
+              transform: "translate(-50%, 10px)",
+              width: "min(90%, 800px)",
+            }}
+            severity="success"
+          >
+            {alertSucMsg}
+          </Alert>
+        ) : null}
+        {/* Side Image */}
+        <Hidden lgDown>
+          <Grid item lg={6}>
+            <Paper sx={{ width: `${(6 * 100) / 12}vw`, height: "100vh" }}>
+              <img
+                src="/student.svg"
+                width="100%"
+                height="100%"
+                className={`${styles.img} `}
               />
-            </FormGroup>
-            <Grid item xs={6}>
-              <ReCAPTCHA
-                sitekey="6Ldxg3YiAAAAAKp4fhlvvCNiS-fhpAvowOi_rnbU"
-                onChange={onChange}
+            </Paper>
+          </Grid>
+        </Hidden>
+        <Grid
+          item
+          lg={6}
+          xs={12}
+          sx={{ padding: "0 2% 10px", borderLeft: "1px solid #fff" }}
+        >
+          <Grid container spacing={2}>
+            {/* Main Heading */}
+
+            <Grid item xs={12} mt={2}>
+              <Link href="/">
+                <Typography
+                  className={styles.heading1}
+                  inputprops={{ form: { autocomplete: "off" } }}
+                >
+                  NicheBy
+                </Typography>
+              </Link>
+            </Grid>
+
+            <Grid item xs={12} mt={2}>
+              <Typography className={styles.heading2}>
+                Create Your New Account
+              </Typography>
+            </Grid>
+
+            {/* Basic Details */}
+
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                placeholder="First Name"
+                size="small"
+                className={styles.input}
+                autoComplete="new-password"
+                onChange={(e) => {
+                  user.first_name = e.target.value;
+                  setUser(user);
+                }}
               />
             </Grid>
-          </Grid>
-
-          {/* Login / SignUp */}
-
-          <Grid item xs={6}>
-            <Box className={styles.link}>
-              <p>
-                Already Have an account?{" "}
-                <Link href="/login">
-                  <a> Login </a>
-                </Link>
-              </p>
-            </Box>
-          </Grid>
-
-          <Hidden smUp>
-            <Grid item xs={6} mt={2} sx={{ textAlign: "right" }}>
-              <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
-                Not an Student?
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                placeholder="Last Name"
+                size="small"
+                autoComplete="new-password"
+                onChange={(e) => {
+                  user.last_name = e.target.value;
+                  setUser(user);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} mb={1}>
+              <Typography className={styles.info}>
+                <img src="/icons8-info-100.svg" className={styles.infoicon} />
+                For Seamless verification signup with your official/registered
+                company Email or College Email
               </Typography>
-              <Link href="/register-employee">
-                <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
-                  Register as Employer
+              <TextField
+                fullWidth
+                placeholder="Email Id"
+                size="small"
+                autoComplete="new-password"
+                onChange={(e) => {
+                  user.email = e.target.value;
+                  setUser(user);
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                placeholder="Password"
+                size="small"
+                type={showPwd ? "text" : "password"}
+                autoComplete="off"
+                onChange={(e) => {
+                  user.password = e.target.value;
+                  setUser(user);
+                }}
+              />
+              <Typography className={styles.warn}>
+                Use at least 8 Character with mix of upper and lowercase
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                fullWidth
+                placeholder="Confirm Password"
+                size="small"
+                type={showPwd ? "text" : "password"}
+                autoComplete="off"
+                onChange={(e) => {
+                  user.confirm_password = e.target.value;
+                  setUser(user);
+                }}
+              />
+            </Grid>
+
+            {/* Show Password */}
+
+            <Grid item xs={12}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox onChange={(e) => setShowPwd(e.target.checked)} />
+                  }
+                  label="Show Password"
+                />
+              </FormGroup>
+              <Grid item xs={6}>
+                <ReCAPTCHA
+                  sitekey="6Le9PHkiAAAAAMCiXHgHBHtQWuqGWhNyZIy7MLfu"
+                  render="explicit"
+                  onChange={onChange}
+                />
+              </Grid>
+            </Grid>
+
+            {/* Login / SignUp */}
+
+            <Grid item xs={6}>
+              <Box className={styles.link}>
+                <p>
+                  Already Have an account?{" "}
+                  <Link href="/login">
+                    <a> Login </a>
+                  </Link>
+                </p>
+              </Box>
+            </Grid>
+
+            <Hidden smUp>
+              <Grid item xs={6} mt={2} sx={{ textAlign: "right" }}>
+                <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
+                  Not an Student?
+                </Typography>
+                <Link href="/register-employee">
+                  <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
+                    Register as Employer
+                  </a>
+                </Link>
+              </Grid>
+            </Hidden>
+
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                // variant="outlined"
+                className={styles.btn}
+                onClick={signup}
+                disabled={!verified}
+              >
+                Sign up
+              </Button>
+              <Link href="/privacypolicy">
+                <a sx={{ cursor: "pointer" }}>
+                  <Typography variant="body2" className={styles.info}>
+                    By clicking the signup button you agree to{" "}
+                    <span style={{ fontWeight: 700 }}>Nicheby</span> Terms and
+                    conditions, Privacy Policy and cookie Policy
+                  </Typography>
                 </a>
               </Link>
             </Grid>
-          </Hidden>
 
-          <Grid item xs={12} sm={6}>
-            <Button
-              fullWidth
-              // variant="outlined"
-              className={styles.btn}
-              onClick={signup}
-              disabled={!verified}
-            >
-              Sign up
-            </Button>
-            <Link href="/privacypolicy">
-              <a sx={{ cursor: "pointer" }}>
-                <Typography variant="body2" className={styles.info}>
-                  By clicking the signup button you agree to{" "}
-                  <span style={{ fontWeight: 700 }}>Nicheby</span> Terms and
-                  conditions, Privacy Policy and cookie Policy
-                </Typography>
-              </a>
-            </Link>
-          </Grid>
-
-          {/* Other Signup options */}
-          {/*           
+            {/* Other Signup options */}
+            {/*           
                     <Grid item xs={12} sm={7} lg={8} sx={{ margin: " 24px auto 0px", textAlign: "center" }}>
                         <img src="/or.svg" width="100%" />
                         <Typography mt={1}>Login Using</Typography>
@@ -330,22 +345,23 @@ export default function Register() {
                         </Link>
                     </Grid>
                     */}
-          {/* Register as employee */}
+            {/* Register as employee */}
 
-          <Hidden smDown>
-            <Grid item xs={12} mt={2}>
-              <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
-                Not an Student?
-              </Typography>
-              <Link href="/register-employee">
-                <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
-                  Register as Employer
-                </a>
-              </Link>
-            </Grid>
-          </Hidden>
+            <Hidden smDown>
+              <Grid item xs={12} mt={2}>
+                <Typography style={{ fontWeight: 400, fontSize: "1rem" }}>
+                  Not an Student?
+                </Typography>
+                <Link href="/register-employee">
+                  <a style={{ fontWeight: 700, fontSize: "0.9rem" }}>
+                    Register as Employer
+                  </a>
+                </Link>
+              </Grid>
+            </Hidden>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
