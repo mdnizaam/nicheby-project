@@ -36,6 +36,7 @@ import AvatarEditor from "react-avatar-editor";
 import { softwareData } from "../components/Skills/softwares";
 import { programingData } from "../components/Skills/programungLanData";
 import withAuth from "../components/HOC/withAuth";
+import { getStudentDetails, postStudentDocs } from "../api-core/Student";
 
 const supportedFiletype = ["png", "jpg", "jpeg"];
 const delimiters = [13, 188];
@@ -93,9 +94,9 @@ const Dashboard = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
   // multi select tags
 
   const [options] = useState(softwareData);
@@ -177,42 +178,40 @@ const Dashboard = () => {
   const jobToggleHandle = (job) => {
     setToggleJob(job);
   };
-  useEffect(async () => {
+  useEffect(() => {
     // Protected Routing
-    if (localStorage.getItem("user")) {
-      var _user = await JSON.parse(localStorage.getItem("user"));
-      console.log("user", _user);
-      setUser(_user);
-
-      axios
-        .get(`${baseUrl2}/student`, {
-          headers: { Authorization: `Token ${_user}` },
-        })
-        .then((result) => {
-          console.log("result:->", result.data);
-          setUserDetails(result.data.data);
-          // setLanguages(result.data.seekerDetails.programmingLanguages)
-          // setSoftwares(result.data.seekerDetails.softwares)
-          setMemId(result.data.data.student_uuid);
-          QRCode.toDataURL(
-            result.data.data.student_uuid,
-            { errorCorrectionLevel: "H" },
-            (err, url) => {
-              url && setQRUrl(url);
-              window.scrollTo(0, 0);
-            }
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-          setAlertMsg(err.response.data.message);
-          setTimeout(() => {
-            setAlertMsg("");
-          }, 3000);
+    
+    const fetchStudentData = async () => {
+      const res = await getStudentDetails();
+      console.log('dashboard', res)
+      if (res.data) {
+        console.log("student", res.data);
+        setUserDetails({
+          firstName: res.data.first_name,
+    lastName: res.data.last_name,
+    dob: res.data.dob,
+    year_of_graduation: res.data.year_of_graduation,
+    year_of_experience: res.data.year_of_experiance,
+    percentage_grade_in_course: res.data.percentage_grade_in_course
+    ,
         });
-    } else {
-      window.location = "/login";
-    }
+        setSelectCountries(res.data.country);
+        setSelectCity(res.data.city);
+        // setLanguages(res.data.seekerDetails.programmingLanguages)
+        // setSoftwares(res.data.seekerDetails.softwares)
+        // setMemId(res.data.student_uuid);
+        // QRCode.toDataURL(
+        //   res.data.student_uuid,
+        //   { errorCorrectionLevel: "H" },
+        //   (err, url) => {
+        //     url && setQRUrl(url);
+        //     window.scrollTo(0, 0);
+        //   }
+        // );
+      }
+    };
+    fetchStudentData();
+   
   }, []);
 
   const toggleShowModal = () => {
@@ -242,41 +241,22 @@ const Dashboard = () => {
       raw: selectedFile,
     });
   };
-  console.log("formData", profileImage.raw);
-  const handleUpdateProfile = () => {
+  // console.log("formData", profileImage.raw);
+  const handleClose = () => {
+    setOpen(false);
+    setProfileImage(profileImage?.preview = " ")
+  };
+  const handleUpdateProfile = async () => {
     let formData = new FormData();
-    formData.append("profile_pic", {
-      document: profileImage.raw,
-      dock_type: profileImage.raw.type,
-      name: profileImage.raw.name,
-    });
-    // formData.append('photo', profileImage.raw, profileImage.raw.name)
-    console.log("formData", profileImage.raw);
-    axios
-      .post(`${baseUrl2}/uploadDoc`, formData, {
-        headers: {
-          Authorization: `Token ${user}`,
-          accept: "application/json",
-          "Accept-Language": "en-US,en;q=0.8",
-          "Content-Type": `multipart/form-data`,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        // let updatedDetails = {
-        //   ...userDetails,
-        //   ['photo']: result.data.photoLink,
-        // }
-        // setUserDetails(updatedDetails)
-      })
-      .catch((err) => {
-        console.log("ERROR:->", err);
-        // setAlertMsg(err.response.data.message)
-        // setTimeout(() => {
-        //   setAlertMsg('')
-        // }, 3000)
-      });
-    // setOpen(false)
+    formData.append("document", profileImage.raw);
+    formData.append("name", profileImage.raw.name);
+    formData.append("dock_type", profileImage.raw.type);
+    console.log("formData", formData);
+    const res = await postStudentDocs(formData);
+    console.log("studentDocs", res);
+    if(res){
+      setProfileImage(profileImage?.preview="")
+    }
   };
   const handleText = (e) => {
     setDiscription(e.target.value);

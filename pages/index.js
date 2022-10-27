@@ -19,12 +19,13 @@ import GoogleOauth from "../components/googleoauth";
 import ReCAPTCHA from "react-google-recaptcha";
 import Head from "next/head";
 import Script from "next/script";
+import { createRegistration } from "../api-core/Register";
+import { useRouter } from "next/router";
 
-// const baseUrl = `http://localhost:4000`
-// const baseUrl2 = 'http://13.233.252.26'
 const baseUrl2 = "https://staging.nicheby.com";
 
 export default function Register() {
+  const router = useRouter();
   const [alertMsg, setAlertMsg] = useState("");
   const [alertSucMsg, setAlertSucMsg] = useState("");
   const [user, setUser] = useState({});
@@ -82,32 +83,49 @@ export default function Register() {
         setAlertMsg("");
       }, 3000);
     } else {
-      axios
-        .post(`${baseUrl2}/register`, user)
-        .then(async (res) => {
-          console.log("res", res);
-          //   setAlertSucMsg(
-          //     `${res.data.user.first_name} you have registered successfully`,
-          //   )
-          if (res.data.user) {
-            window.location = `/verifyseeker/${res.data.user.email}`;
-          } else {
-            console.log("already registered");
-          }
-        })
-        .catch((e) => {
-          console.log("e", e);
-          //   setAlertMsg(e.response.data.message)
-          setTimeout(() => {
-            setAlertMsg("");
-          }, 3000);
-        });
+      // console.log("res", user);
+
+      const res = await createRegistration(user);
+      console.log("res", res.data);
+      if (res?.data?.email?.status == 401) {
+        router.push(`/verifyseeker/${res.data.email.status}`);
+      } else if (res?.data?.email?.status == 400) {
+        // router.push(`/login`);
+        setAlertMsg(res.data.email.Message);
+        setTimeout(() => {
+          setAlertMsg("");
+        }, 3000);
+      } else {
+        router.push(`/verifyseeker/${res.user.email}`);
+        console.log("res", res.data.email.Message);
+      }
+      // window.location = `/verifyseeker/${res.user.email}`
+      // axios
+      //   .post(`${baseUrl2}/register`, user)
+      //   .then((result) => {
+      //     // const res = await result;
+      //     console.log("res", res);
+
+      //     // if (res.data.user) {
+      //     //   console.log("register data", res.data.user);
+      //     //   window.location = `/verifyseeker/${res.data.user.email}`;
+      //     // } else {
+      //     //   console.log("already registered");
+      //     // }
+      //   })
+      //   .catch((e) => {
+      //     console.log("e", e.response.data);
+      //     //   setAlertMsg(e.response.data.message)
+      //     // setTimeout(() => {
+      //     //   setAlertMsg("");
+      //     // }, 3000);
+      //   });
     }
   };
   return (
     <>
       <Head>
-        <title>Reister</title>
+        <title>Register</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
         <Script
