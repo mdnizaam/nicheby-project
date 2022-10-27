@@ -27,7 +27,7 @@ export default function ChangePassword() {
         setAlertMsg('')
       }, 3000)
     } else {
-      console.log('emaiotp', { email, otp })
+      // console.log('emaiotp', { email, otp })
       axios
         .post(`https://staging.nicheby.com/verifyotp`, { email, otp })
         .then((otpRes) => {

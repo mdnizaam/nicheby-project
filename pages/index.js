@@ -86,18 +86,18 @@ export default function Register() {
       // console.log("res", user);
 
       const res = await createRegistration(user);
-      console.log("res", res.data);
+      console.log("res", res?.data);
       if (res?.data?.email?.status == 401) {
-        router.push(`/verifyseeker/${res.data.email.status}`);
+        router.push(`/verifyseeker/${res?.data?.email?.status}`);
       } else if (res?.data?.email?.status == 400) {
         // router.push(`/login`);
-        setAlertMsg(res.data.email.Message);
+        setAlertMsg(res?.data?.email?.Message);
         setTimeout(() => {
           setAlertMsg("");
         }, 3000);
       } else {
-        router.push(`/verifyseeker/${res.user.email}`);
-        console.log("res", res.data.email.Message);
+        router.push(`/verifyseeker/${res?.data?.email}`);
+        // console.log("res", res?.data?.email?.Message);
       }
       // window.location = `/verifyseeker/${res.user.email}`
       // axios
