@@ -183,7 +183,7 @@ const Dashboard = () => {
     
     const fetchStudentData = async () => {
       const res = await getStudentDetails();
-      // console.log('dashboard', res)
+      console.log('dashboard', res)
       if (res.data) {
         // console.log("student", res.data);
         setUserDetails({

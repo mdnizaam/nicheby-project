@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Grid,
   Typography,
@@ -6,51 +6,59 @@ import {
   TextField,
   Button,
   Alert,
-} from '@mui/material'
-import styles from '../../styles/Login.module.css'
-import axios from 'axios'
+} from "@mui/material";
+import styles from "../../styles/Login.module.css";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { otpVerify } from "../../api-core/Register";
 
 export default function ChangePassword() {
-  const [alertMsg, setAlertMsg] = useState('')
-  const [otp, setOtp] = useState('')
-  let verify = () => {
-    var email = window.location.pathname.split('/')[2]
-    console.log('email:-', email)
+  const router = useRouter();
+  const [alertMsg, setAlertMsg] = useState("");
+  const [otp, setOtp] = useState("");
+  let verify = async () => {
+    var email = window.location.pathname.split("/")[2];
+    // console.log("email:-", email);
     if (!email) {
-      setAlertMsg('Invalid URL')
+      setAlertMsg("Invalid URL");
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
+        setAlertMsg("");
+      }, 3000);
     } else if (!otp) {
-      setAlertMsg('Please enter OTP')
+      setAlertMsg("Please enter OTP");
       setTimeout(() => {
-        setAlertMsg('')
-      }, 3000)
+        setAlertMsg("");
+      }, 3000);
     } else {
-      // console.log('emaiotp', { email, otp })
-      axios
-        .post(`https://staging.nicheby.com/verifyotp`, { email, otp })
-        .then((otpRes) => {
-          console.log('otpRes', otpRes)
-          window.location = '/login'
-        })
-        .catch((e) => {
-          // setAlertMsg(e.response.data.message);
-          setTimeout(() => {
-            setAlertMsg('')
-          }, 3000)
-        })
+      console.log("emaiotp", { email, otp });
+      const res = await otpVerify({ email, otp });
+      if (res) {
+        localStorage.setItem("user", JSON.stringify(res.token));
+        window.location = "/dashboard";
+      }
+      // axios
+      //   .post(`https://staging.nicheby.com/verifyotp`, { email, otp })
+      //   .then((otpRes) => {
+      //     console.log('otpRes', otpRes)
+      //     window.location = '/login'
+      //   })
+      //   .catch((e) => {
+      //     // setAlertMsg(e.response.data.message);
+      //     setTimeout(() => {
+      //       setAlertMsg('')
+      //     }, 3000)
+      //   })
     }
-  }
+  };
   return (
     <Grid container>
       {alertMsg ? (
         <Alert
           sx={{
-            position: 'absolute',
-            left: '50%',
-            transform: 'translate(-50%, 10px)',
-            width: 'min(90%, 800px)',
+            position: "absolute",
+            left: "50%",
+            transform: "translate(-50%, 10px)",
+            width: "min(90%, 800px)",
           }}
           severity="error"
         >
@@ -90,5 +98,5 @@ export default function ChangePassword() {
         </Container>
       </Grid>
     </Grid>
-  )
+  );
 }
