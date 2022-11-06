@@ -32,22 +32,17 @@ export default function ChangePassword() {
     } else {
       console.log("emaiotp", { email, otp });
       const res = await otpVerify({ email, otp });
-      if (res) {
-        localStorage.setItem("user", JSON.stringify(res.token));
+      console.log("res", res);
+      if (res?.data?.Message) {
+        console.log("res", res);
+        localStorage.setItem("user", JSON.stringify(res?.data?.Token));
         window.location = "/dashboard";
+      } else {
+        setAlertMsg(res?.data.Message || "Invalid User");
+        setTimeout(() => {
+          setAlertMsg("");
+        }, 3000);
       }
-      // axios
-      //   .post(`https://staging.nicheby.com/verifyotp`, { email, otp })
-      //   .then((otpRes) => {
-      //     console.log('otpRes', otpRes)
-      //     window.location = '/login'
-      //   })
-      //   .catch((e) => {
-      //     // setAlertMsg(e.response.data.message);
-      //     setTimeout(() => {
-      //       setAlertMsg('')
-      //     }, 3000)
-      //   })
     }
   };
   return (

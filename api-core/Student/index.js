@@ -10,7 +10,15 @@ export const getStudentDetails = async () => {
 };
 export const postStudentDocs = async (data) => {
   try {
-    const response = await Axios.post(`/uploadDoc`, data);
+    const response = await Axios.post(`/uploadDoc/`, data);
+    return response.data;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const postStudentData = async (data) => {
+  try {
+    const response = await Axios.post(`/student`, data);
     return response.data;
   } catch (error) {
     return error.response;

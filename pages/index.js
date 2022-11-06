@@ -99,6 +99,7 @@ export default function Register() {
         }, 3000);
       } else {
         router.push(`/verifyseeker/${res?.data?.email?.email}`);
+        console.log("res", user.email, res?.data.email.email);
         // router.push(`/verifyseeker/${res?.data?.email}`);
         // console.log("res", res?.data?.email?.Message);
       }

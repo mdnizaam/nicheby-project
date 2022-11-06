@@ -36,7 +36,7 @@ import AvatarEditor from "react-avatar-editor";
 import { softwareData } from "../components/Skills/softwares";
 import { programingData } from "../components/Skills/programungLanData";
 import withAuth from "../components/HOC/withAuth";
-import { getStudentDetails, postStudentDocs } from "../api-core/Student";
+import { getStudentDetails, postStudentData, postStudentDocs } from "../api-core/Student";
 
 const supportedFiletype = ["png", "jpg", "jpeg"];
 const delimiters = [13, 188];
@@ -88,6 +88,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const Dashboard = () => {
+  const[loading,setLoading]=useState(false)
   const [open, setOpen] = React.useState(false);
   const [imgCrop, setImgCrop] = useState(false);
 
@@ -170,7 +171,7 @@ const Dashboard = () => {
     "You have a new message from Reliance Industries.",
     "You have a notification from Nicheby.com",
   ]);
-  const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsg, setAlertMsg] = useState("adsdasd");
   const [showModal, setShowModal] = useState(false);
   const [percentage, setPercentage] = useState(20);
   const [QRUrl, setQRUrl] = useState();
@@ -244,17 +245,24 @@ const Dashboard = () => {
   // console.log("formData", profileImage.raw);
   const handleClose = () => {
     setOpen(false);
-    setProfileImage(profileImage?.preview = " ")
+    // setProfileImage(profileImage?.preview = "")
   };
   const handleUpdateProfile = async () => {
     let formData = new FormData();
-    formData.append("document", profileImage.raw);
-    formData.append("name", profileImage.raw.name);
-    formData.append("dock_type", profileImage.raw.type);
+    formData.append("file", profileImage.raw);
+    formData.append("title", "profilePic");
+    formData.append("file_type", "P");
     console.log("formData", formData);
+    setLoading(true)
     const res = await postStudentDocs(formData);
     console.log("studentDocs", res);
+    setLoading(false)
     if(res){
+      setAlertMsg("Profile Uploaded Successfully")
+        setTimeout(() => {
+          setAlertMsg("");
+        }, 3000);
+        setOpen(false);
       setProfileImage(profileImage?.preview="")
     }
   };
@@ -278,20 +286,22 @@ const Dashboard = () => {
     };
     // console.log('updatedDetaills', updatedDetails)
     console.log("ALl Data", allData);
-    axios
-      .post(`${baseUrl2}/student`, allData, {
-        headers: { Authorization: `Token ${user}` },
-      })
-      .then((result) => {
-        console.log("result", result);
-      })
-      .catch((err) => {
-        console.log("err", err);
-        // setAlertMsg(err.response.data)
-        setTimeout(() => {
-          setAlertMsg("");
-        }, 3000);
-      });
+    const res=await postStudentData(allData)
+    console.log('res', res)
+    // axios
+    //   .post(`${baseUrl2}/student`, allData, {
+    //     headers: { Authorization: `Token ${user}` },
+    //   })
+    //   .then((result) => {
+    //     console.log("result", result);
+    //   })
+    //   .catch((err) => {
+    //     console.log("err", err);
+    //     // setAlertMsg(err.response.data)
+    //     setTimeout(() => {
+    //       setAlertMsg("");
+    //     }, 3000);
+    //   });
   };
   const updateUserDetails = async (e) => {
     let updatedDetails = {
@@ -321,11 +331,24 @@ const Dashboard = () => {
               {alertMsg}
             </Alert>
           ) : null}
-          <Navbar
-            modal={showModal}
-            setModal={setShowModal}
-            toggleModal={toggleShowModal}
-          />
+          {alertMsg ? (
+            <Alert
+              sx={{
+                position: "absolute",
+                left: "50%",
+                transform: "translate(-50%, 10px)",
+                width: "min(90%, 800px)",
+              }}
+              severity="success"
+            >
+              {alertMsg}
+            </Alert>
+          ) : null}
+            <Navbar
+              modal={showModal}
+              setModal={setShowModal}
+              toggleModal={toggleShowModal}
+            />
           <Grid xs={12} container>
             <Grid item xs={12}>
               <Header />
@@ -811,7 +834,7 @@ const Dashboard = () => {
                                           onClick={handleUpdateProfile}
                                           autoFocus
                                         >
-                                          Upload
+                                          {loading?"Uploading...":"Upload"}
                                         </Button>
                                       </DialogActions>
                                     </Dialog>
